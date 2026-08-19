@@ -1,9 +1,11 @@
-import './App.css'
-
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return <AppRoutes />;
+  return (
+    <div className="w-full h-full">
+      <AppRoutes />
+    </div>
+  );
 }
 
 export default App;

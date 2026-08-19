@@ -1,55 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+    font-family: "Outfit", sans-serif;
 }
+/* ============================= */
+/* TABLE CONTAINER */
+/* ============================= */
 
-html,
-body,
-#root {
+.table-container {
   width: 100%;
-  min-height: 100vh;
+  overflow-x: auto;
+  overflow-y: auto;
+
+  max-height: 500px;
+
+  border-radius: 0 0 20px 20px;
+
+  scrollbar-width: thin;
 }
 
-body {
-  font-family: Inter, sans-serif;
-  background: linear-gradient(
-    135deg,
-    #050816 0%,
-    #0d1127 30%,
-    #15103b 70%,
-    #1f1147 100%
-  );
-  color: white;
-  overflow-x: hidden;
+/* ============================= */
+/* TABLE */
+/* ============================= */
+
+.users-table {
+  width: max-content;
+  min-width: 1600px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  font-size: 14px;
 }
 
-/* Purple Glow - Top Right */
-body::before {
-  content: "";
-  position: fixed;
-  top: -200px;
-  right: -150px;
-  width: 500px;
-  height: 500px;
-  background: rgba(139, 92, 246, 0.25);
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.users-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+
+  background: #fff;
+
+  padding: 18px 24px;
+
+  text-align: left;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: #9a938d;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+  white-space: nowrap;
+
+  border-bottom: 1px solid #eee7e2;
+}
+
+/* ============================= */
+/* TABLE BODY */
+/* ============================= */
+
+.users-table tbody td {
+  padding: 22px 24px;
+
+  color: #514b47;
+
+  white-space: nowrap;
+
+  border-bottom: 1px solid #f1ece8;
+
+  vertical-align: middle;
+}
+
+/* ============================= */
+/* ROW */
+/* ============================= */
+
+.users-table tbody tr {
+  background: white;
+
+  transition: background 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+  background: #fcf8ff;
+}
+
+/* ============================= */
+/* EMPLOYEE ID */
+/* ============================= */
+
+.employee-id {
+  font-weight: 600;
+  color: #6f55a5;
+}
+
+/* ============================= */
+/* PERSON */
+/* ============================= */
+
+.person-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  min-width: 190px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
   border-radius: 50%;
-  filter: blur(140px);
-  z-index: -1;
+
+  background: #ead9f7;
+
+  color: #7653a8;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 600;
+
+  font-size: 13px;
 }
 
-/* Pink Glow - Bottom Left */
-body::after {
-  content: "";
-  position: fixed;
-  bottom: -200px;
-  left: -150px;
-  width: 500px;
-  height: 500px;
-  background: rgba(236, 72, 153, 0.18);
+.person-name {
+  font-size: 15px;
+
+  font-weight: 600;
+
+  color: #292522;
+
+  margin-bottom: 4px;
+}
+
+.person-id {
+  font-size: 12px;
+
+  color: #a29a94;
+}
+
+/* ============================= */
+/* ADDRESS */
+/* ============================= */
+
+.address-cell {
+  display: block;
+
+  max-width: 220px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+/* ============================= */
+/* ROLE */
+/* ============================= */
+
+.role-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 7px 14px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.role-badge.user {
+  background: #f2e4fa;
+
+  color: #7653a8;
+}
+
+.role-badge.hr {
+  background: #fff0d9;
+
+  color: #b4772b;
+}
+
+/* ============================= */
+/* STATUS */
+/* ============================= */
+
+.status-badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 7px 14px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.status-badge.active {
+  background: #e6f5ec;
+
+  color: #4d9469;
+}
+
+.status-badge.disabled {
+  background: #fde9e7;
+
+  color: #c56a68;
+}
+
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
+
+.disable-btn,
+.enable-btn {
+  border: none;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.disable-btn {
+  background: #fff0ef;
+  color: #c66b68;
+}
+
+.disable-btn:hover {
+  background: #fbdcda;
+}
+
+.enable-btn {
+  background: #e8f6ed;
+  color: #4d9469;
+}
+
+.enable-btn:hover {
+  background: #d5efdf;
+}
+
+/* ============================= */
+/* EMPTY STATE */
+/* ============================= */
+
+.no-users {
+  text-align: center !important;
+  padding: 50px !important;
+  color: #aaa29c !important;
+}
+
+/* ============================= */
+/* SCROLLBAR */
+/* ============================= */
+
+.table-container::-webkit-scrollbar {
+  height: 9px;
+  width: 9px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f5f1ee;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #c8c1bd;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa19b;
+}
+.profile-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 50%;
-  filter: blur(140px);
-  z-index: -1;
+  display: block;
 }
