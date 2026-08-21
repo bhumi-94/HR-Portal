@@ -44,9 +44,9 @@ const Dashboard = () => {
     navigate("/login", { replace: true });
   };
 
-  // =========================
+   
   // FILTER USERS
-  // =========================
+   
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
@@ -117,11 +117,14 @@ const Dashboard = () => {
         </div>
 
         {/* NAVIGATION */}
+        
 
         <div className="px-4">
           <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
             Workspace
           </p>
+
+    
 
           <button className="flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
             <span className="text-lg">♙</span>
@@ -173,7 +176,7 @@ const Dashboard = () => {
           <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-2 text-sm font-medium text-[#b08a68]">
-                Good morning ✨
+                Hello EveryOne ✨
               </p>
 
               <h2 className="text-3xl font-bold tracking-tight text-[#292524] sm:text-4xl">

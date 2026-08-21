@@ -82,11 +82,8 @@ const Profile = () => {
 
     try {
       const formData = new FormData();
-
       formData.append("profilePic", file);
-
       const token = localStorage.getItem("token");
-
       const response = await axios.put(
         "http://localhost:3000/api/users/profile-picture",
         formData,
@@ -98,21 +95,14 @@ const Profile = () => {
       );
 
       console.log(response.data);
-
       alert("Profile picture updated successfully!");
-
       const imageUrl = `http://localhost:3000${response.data.profile_image}`;
-
       setProfilePic(imageUrl);
-
-      
       const updatedUser = {
         ...user,
         profile_image: response.data.profile_image,
       };
-
       setUser(updatedUser);
-
       localStorage.setItem("user", JSON.stringify(updatedUser));
     } catch (error) {
       console.error("Upload error:", error);
@@ -123,9 +113,7 @@ const Profile = () => {
     }
   };
 
-  // setProfilePic(
-  //   `http://localhost:3000${response.data.profilePic}`
-  // );
+  
   // LOGOUT
 
   const handleLogout = () => {
@@ -162,11 +150,20 @@ const Profile = () => {
           <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
             Account
           </p>
+
+          {/* MY DASHBOARD  */}
+          <button onClick={()=>navigate("/user-dashboard")} className="flex w-full mt-2 items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
+            <span className="text-lg">♡</span>
+            My Dashboard
+          </button>
+          
           {/* MY PROFILE */}
-          <button className="flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
+          <button className="flex w-full mt-2 items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
             <span className="text-lg">♡</span>
             My Profile
           </button>
+          
+          
         </div>
         {/* SIDEBAR USER*/}
         <div className="mt-auto p-4">
@@ -174,7 +171,7 @@ const Profile = () => {
             <div className="flex items-center gap-3">
               {/* AVATAR */}
 
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f3d4d9] text-sm font-bold text-[#9f4f5c]">
+              {/* <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f3d4d9] text-sm font-bold text-[#9f4f5c]">
                 {profilePic ? (
                   <img
                     src={profilePic}
@@ -186,13 +183,31 @@ const Profile = () => {
                     {user?.fullname?.charAt(0)?.toUpperCase() || "D"}
                   </span>
                 )}
+              </div> */}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#f3d4d9]">
+                {profilePic ? (
+                  <img
+                    src={profilePic}
+                    alt={user?.fullname || "Profile"}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                    
+                  />
+                  
+                ) : (
+                  <span className="text-xl font-bold text-purple-700">
+                    {user?.fullname?.charAt(0)?.toUpperCase() || "U"}
+                  </span>
+                )}
               </div>
 
               {/* USER INFO */}
 
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-[#292524]">
-                  {user?.fullname || "User"}
+                  {user?.fullname || "User" }
                 </p>
 
                 <p className="text-xs text-[#a8a29e]">
