@@ -10,6 +10,7 @@ import PrivateRoute from "../routes/PrivateRoute";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Profile from "../pages/dashboard/Profile";
 
+import UserHistoryDashboard from "../pages/dashboard/UserHistoryDashboard";
 const AppRoutes = () => {
   const token = localStorage.getItem("token");
 
@@ -43,23 +44,21 @@ const AppRoutes = () => {
 
       {/* ================= PRIVATE ROUTES ================= */}
 
-      <Route
-        path="/dashboard"
-        element={
+      <Route path="/dashboard" element={
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
         }
       />
 
-      <Route
-        path="/profile"
-        element={
+      <Route path="/profile" element={
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
         }
       />
+
+      <Route path="/user-dashboard" element={<UserHistoryDashboard />} />
 
       {/* ================= 404 ================= */}
 

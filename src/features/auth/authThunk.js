@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "./authSlice";
+
 const API_URL = "http://localhost:3000/api/auth";
 
 // REGISTER
@@ -13,11 +14,9 @@ export const registerUser = createAsyncThunk(
         `${API_URL}/register`,
         formData
       );
-
       return response.data;
     } catch (error) {
       console.error("REGISTER ERROR:", error.response?.data);
-
       return rejectWithValue(
         error.response?.data?.message || "Registration failed"
       );
@@ -40,8 +39,6 @@ export const loginUser = createAsyncThunk(
   },
   
 );
-
-
 // FORGOT PASSWORD
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",

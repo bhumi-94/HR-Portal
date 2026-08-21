@@ -57,6 +57,7 @@ const Register = () => {
       }));
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,41 +72,32 @@ const Register = () => {
         abortEarly: false,
       });
 
-      console.log("VALIDATION PASSED");
-
       // 2. Create FormData
-      const data = new FormData();
+      // const data = new FormData();
 
-      // 3. Add normal fields
+      // // 3. Add normal fields
 
-      data.append("firstname", formData.firstname);
-      data.append("lastname", formData.lastname);
-      data.append("username", formData.username);
+      // data.append("firstname", formData.firstname);
+      // data.append("lastname", formData.lastname);
+      // data.append("username", formData.username);
 
-      data.append("personal_email", formData.personal_email);
-      data.append("working_email", formData.working_email);
+      // data.append("personal_email", formData.personal_email);
+      // data.append("working_email", formData.working_email);
 
-      data.append("phone", formData.phone);
-      data.append("address", formData.address);
-      data.append("gender", formData.gender);
-      data.append("department", formData.department);
-      data.append("job_title", formData.job_title);
-      data.append("password", formData.password);
+      // data.append("phone", formData.phone);
+      // data.append("address", formData.address);
+      // data.append("gender", formData.gender);
+      // data.append("department", formData.department);
+      // data.append("job_title", formData.job_title);
+      // data.append("password", formData.password);
       
-      // 4. Add profile image
-      // if (formData.profileImage) {
-      //   data.append("profileImage", formData.profileImage);
+      // Check FormData
+      // for (let pair of data.entries()) {
+      //   console.log(pair[0], pair[1]);
       // }
 
-      // Check FormData
-      for (let pair of data.entries()) {
-        console.log(pair[0], pair[1]);
-      }
-
       // 5. Send FormData through Redux
-      const result = await dispatch(registerUser(data));
-
-      console.log("REGISTER RESULT:", result);
+      const result = await dispatch(registerUser(formData));
 
       // 6. Registration successful
       if (registerUser.fulfilled.match(result)) {
@@ -183,29 +175,7 @@ const Register = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-2">
-              {/* <div> */}
-                {/* <label
-                  htmlFor="profileImage"
-                  className="mb-2 block text-sm font-medium text-gray-700"
-                >
-                  Profile Image
-                </label> */}
-
               
-                {/* <input
-                  type="file"
-                  id="profileImage"
-                  name="profileImage"
-                  accept="image/*"
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      profileImage: e.target.files[0],
-                    })
-                  }
-                  className="w-full rounded-md border border-gray-400 px-3 py-2"
-                /> */}
-              {/* </div> */}
 
               {/* FIRST NAME */}
               <div>
