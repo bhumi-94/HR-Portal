@@ -11,6 +11,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import Profile from "../pages/dashboard/Profile";
 
 import UserHistoryDashboard from "../pages/dashboard/UserHistoryDashboard";
+import EmployeeHistory from "../pages/dashboard/EmployeeHistory";
 const AppRoutes = () => {
   const token = localStorage.getItem("token");
 
@@ -59,6 +60,7 @@ const AppRoutes = () => {
       />
 
       <Route path="/user-dashboard" element={<UserHistoryDashboard />} />
+      <Route path="/employee-history" element={<EmployeeHistory />} />
 
       {/* ================= 404 ================= */}
 
