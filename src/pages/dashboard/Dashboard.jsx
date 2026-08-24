@@ -38,15 +38,13 @@ const Dashboard = () => {
   // LOGOUT
 
   const handleLogout = () => {
-    dispatch(logout())
+    dispatch(logout());
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login", { replace: true });
   };
 
-   
   // FILTER USERS
-   
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
@@ -117,19 +115,25 @@ const Dashboard = () => {
         </div>
 
         {/* NAVIGATION */}
-        
 
         <div className="px-4">
           <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
             Workspace
           </p>
 
-    
-
           <button className="flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
             <span className="text-lg">♙</span>
             Users
           </button>
+
+          <button onClick={()=>{navigate("/employee-history")}} className="flex w-full mt-3 items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
+            <span className="text-lg">◷</span>
+            Employee History
+          </button>
+
+          {/* <button onClick={() => setActiveSection("employee-history")}>
+            Employee History
+          </button> */}
         </div>
 
         {/* BOTTOM PROFILE */}
@@ -313,11 +317,6 @@ const Dashboard = () => {
                           <div className="avatar">
                             {user.profile_image ? (
                               <>
-                                {/* {console.log(
-                                  "PROFILE IMAGE:",
-                                  user.profile_image,
-                                )} */}
-
                                 <img
                                   src={`http://localhost:3000${user.profile_image}`}
                                   alt={user.fullname}

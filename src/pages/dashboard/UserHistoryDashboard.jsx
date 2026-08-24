@@ -116,6 +116,56 @@ const UserHistoryDashboard = () => {
 
   const lastSevenDays = Array.isArray(attendance) ? attendance.slice(0, 7) : [];
 
+  // const getLocalDate = () => {
+  //   const now = new Date();
+
+  //   const year = now.getFullYear();
+  //   const month = String(now.getMonth() + 1).padStart(2, "0");
+  //   const day = String(now.getDate()).padStart(2, "0");
+
+  //   return `${year}-${month}-${day}`;
+  // };
+
+  // const today = getLocalDate();
+
+  // const todayAttendance = Array.isArray(attendance)
+  //   ? attendance.find((record) => {
+  //       if (!record?.tap_in_date) return false;
+
+  //       // MySQL DATE can already be "2026-08-21"
+  //       const recordDate = String(record.tap_in_date).slice(0, 10);
+
+  //       return recordDate === today;
+  //     })
+  //   : null;
+
+  // ================= TODAY'S ATTENDANCE =================
+
+const getLocalDate = (dateValue) => {
+  if (!dateValue) return null;
+
+  const date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const today = getLocalDate(new Date());
+
+const todayAttendance = Array.isArray(attendance)
+  ? attendance.find((record) => {
+      const recordDate = getLocalDate(record?.tap_in_date);
+
+      return recordDate === today;
+    })
+  : null;
   // UI
 
   return (
@@ -308,6 +358,26 @@ const UserHistoryDashboard = () => {
           {/* ================= HISTORY ================= */}
 
           <div className="overflow-hidden rounded-[28px] border border-[#eee7df] bg-white shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
+            <div className="border-b border-[#eee7df] px-6 py-6">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f3e8f8] text-lg">
+                  ♡
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-bold text-[#292524]">
+                    Today's History
+                  </h3>
+
+                  <p className="mt-1 text-sm text-[#9c958f]">
+                    {todayAttendance?.tap_in_time} -{" "}
+                    {todayAttendance?.tap_out_time}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="overflow-hidden mt-5 rounded-[28px] border border-[#eee7df] bg-white shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
             {/* HEADER */}
 
             <div className="border-b border-[#eee7df] px-6 py-6">
@@ -318,7 +388,7 @@ const UserHistoryDashboard = () => {
 
                 <div>
                   <h3 className="text-xl font-bold text-[#292524]">
-                    My Attendance History
+                   Attendance History
                   </h3>
 
                   <p className="mt-1 text-sm text-[#9c958f]">
