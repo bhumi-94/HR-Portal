@@ -130,10 +130,7 @@ const Dashboard = () => {
             <span className="text-lg">◷</span>
             Employee History
           </button>
-
-          {/* <button onClick={() => setActiveSection("employee-history")}>
-            Employee History
-          </button> */}
+    
         </div>
 
         {/* BOTTOM PROFILE */}
@@ -422,6 +419,7 @@ const Dashboard = () => {
               </tbody>
             </table>
           </div>
+          
 
           {/* FOOTER */}
 
