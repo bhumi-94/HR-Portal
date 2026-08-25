@@ -9,6 +9,7 @@ import {
 } from "../../features/attendance/attendanceThunk";
 
 import { logout } from "../../features/auth/authSlice";
+import LeaveSection from "../../components/layout/LeaveSection";
 
 const UserHistoryDashboard = () => {
   const navigate = useNavigate();
@@ -485,6 +486,8 @@ const todayAttendance = Array.isArray(attendance)
               </table>
             </div>
           </div>
+
+          <LeaveSection />
 
           {/* ================= FOOTER ================= */}
 
