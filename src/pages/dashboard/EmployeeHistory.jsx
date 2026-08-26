@@ -40,11 +40,8 @@ const EmployeeHistory = () => {
 
   const formatDateKey = (date) => {
     const year = date.getFullYear();
-
     const month = String(date.getMonth() + 1).padStart(2, "0");
-
     const day = String(date.getDate()).padStart(2, "0");
-
     return `${year}-${month}-${day}`;
   };
 
@@ -108,9 +105,7 @@ const EmployeeHistory = () => {
     return (
       <span className="whitespace-nowrap">
         <span className="font-medium text-[#5d7f68]">{tapIn}</span>
-
         <span className="mx-1 text-[#b8b0a9]">→</span>
-
         <span className="font-medium text-[#a85c65]">{tapOut}</span>
       </span>
     );
@@ -224,6 +219,14 @@ const EmployeeHistory = () => {
               <span className="text-lg">◷</span>
               Employee History
             </button>
+
+            <button
+              onClick={() => navigate("/employee-leave")}
+              className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
+            >
+              <span className="text-lg">◷</span>
+              Employee Leaves
+            </button>
           </div>
 
           <div className="mt-auto p-4">
@@ -255,67 +258,11 @@ const EmployeeHistory = () => {
 
   return (
     <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
-      {/* =====================================================
-          SIDEBAR
-      ====================================================== */}
-      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-[#eee7df] bg-white lg:flex lg:flex-col">
-        {/* LOGO */}
-        <div className="flex items-center gap-3 px-7 py-7">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5] text-xl">
-            ✦
-          </div>
-
-          <div>
-            <h1 className="text-lg font-bold tracking-tight text-[#292524]">
-              HR Portal
-            </h1>
-
-            <p className="text-xs text-[#a8a29e]">People management</p>
-          </div>
-        </div>
-
-        {/* NAVIGATION */}
-        <div className="px-4">
-          <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
-            Workspace
-          </p>
-
-          {/* USERS */}
-          <button
-            onClick={() => navigate("/dashboard")}
-            className=" flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
-          >
-            <span className="text-lg">♙</span>
-            Users
-          </button>
-
-          {/* EMPLOYEE HISTORY */}
-          <button
-            onClick={() => navigate("/employee-history")}
-            className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
-          >
-            <span className="text-lg">◷</span>
-            Employee History
-          </button>
-        </div>
-
-        {/* LOGOUT */}
-        <div className="mt-auto p-4">
-          <button
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#a85c65] transition hover:bg-[#fff1f2]"
-          >
-            <span>↪</span>
-            Logout
-          </button>
-        </div>
-      </aside>
-
       {/* MAIN CONTENT */}
-      <main className="lg:ml-64">
+      <main className="">
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
           {/* MOBILE HEADER */}
-          <div className="mb-6 flex items-center justify-between lg:hidden">
+          {/* <div className="mb-6 flex items-center justify-between lg:hidden">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5]">
                 ✦
@@ -334,7 +281,7 @@ const EmployeeHistory = () => {
             >
               Logout
             </button>
-          </div>
+          </div> */}
 
           {/* PAGE HEADER */}
           <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">

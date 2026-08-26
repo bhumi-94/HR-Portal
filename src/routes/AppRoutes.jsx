@@ -7,12 +7,14 @@ import ResetPassword from "../pages/auth/ResetPassword";
 
 import PrivateRoute from "../routes/PrivateRoute";
 
+import MainLayout from "../layouts/mainLayout";
+
 import Dashboard from "../pages/dashboard/Dashboard";
 import Profile from "../pages/dashboard/Profile";
-
 import UserHistoryDashboard from "../pages/dashboard/UserHistoryDashboard";
 import EmployeeHistory from "../pages/dashboard/EmployeeHistory";
 import EmployeeLeave from "../pages/dashboard/EmployeeLeave";
+
 const AppRoutes = () => {
   const token = localStorage.getItem("token");
 
@@ -24,7 +26,14 @@ const AppRoutes = () => {
         path="/"
         element={
           token ? (
-            <Navigate to="/dashboard" replace />
+            <Navigate
+              to={
+                Number(JSON.parse(localStorage.getItem("user"))?.role) === 1
+                  ? "/dashboard"
+                  : "/user-dashboard"
+              }
+              replace
+            />
           ) : (
             <Navigate to="/login" replace />
           )
@@ -33,7 +42,20 @@ const AppRoutes = () => {
 
       <Route
         path="/login"
-        element={token ? <Navigate to="/dashboard" replace /> : <Login />}
+        element={
+          token ? (
+            <Navigate
+              to={
+                Number(JSON.parse(localStorage.getItem("user"))?.role) === 1
+                  ? "/dashboard"
+                  : "/user-dashboard"
+              }
+              replace
+            />
+          ) : (
+            <Login />
+          )
+        }
       />
 
       <Route path="/register" element={<Register />} />
@@ -44,25 +66,27 @@ const AppRoutes = () => {
 
       <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-      {/* ================= PRIVATE ROUTES ================= */}
+      {/* ================= PRIVATE LAYOUT ================= */}
 
-      <Route path="/dashboard" element={
+      <Route
+        element={
           <PrivateRoute>
-            <Dashboard />
+            <MainLayout />
           </PrivateRoute>
         }
-      />
+      >
+        {/* These are CHILDREN of MainLayout */}
 
-      <Route path="/profile" element={
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        }
-      />
+        <Route path="/dashboard" element={<Dashboard />} />
 
-      <Route path="/user-dashboard" element={<UserHistoryDashboard />} />
-      <Route path="/employee-history" element={<EmployeeHistory />} />
-      <Route path="/employee-leave" element={<EmployeeLeave />} />
+        <Route path="/profile" element={<Profile />} />
+
+        <Route path="/user-dashboard" element={<UserHistoryDashboard />} />
+
+        <Route path="/employee-history" element={<EmployeeHistory />} />
+
+        <Route path="/employee-leave" element={<EmployeeLeave />} />
+      </Route>
 
       {/* ================= 404 ================= */}
 

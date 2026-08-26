@@ -40,7 +40,6 @@ const LeaveRequestModal = ({ isOpen, onClose }) => {
     setDuration(days);
   }, [formData.startDate, formData.endDate]);
 
-  // Close modal with Escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
@@ -58,23 +57,6 @@ const LeaveRequestModal = ({ isOpen, onClose }) => {
       document.body.style.overflow = "auto";
     };
   }, [isOpen, onClose]);
-
-  //   const handleChange = (event) => {
-  //     const { name, value } = event.target;
-
-  //     if (name === "reason") {
-  //       const reasonRegex = /^[A-Za-z0-9 ]*$/;
-
-  //       if (!reasonRegex.test(value)) {
-  //         return;
-  //       }
-  //     }
-
-  //     setFormData((previous) => ({
-  //       ...previous,
-  //       [name]: value,
-  //     }));
-  //   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
