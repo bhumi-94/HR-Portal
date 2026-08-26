@@ -106,14 +106,9 @@ const Profile = () => {
       localStorage.setItem("user", JSON.stringify(updatedUser));
     } catch (error) {
       console.error("Upload error:", error);
-
-      // alert(
-      //   error.response?.data?.message || "Failed to upload profile picture",
-      // );
     }
   };
 
-  
   // LOGOUT
 
   const handleLogout = () => {
@@ -130,112 +125,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
-      {/* SIDEBAR */}
-      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-[#eee7df] bg-white lg:flex lg:flex-col">
-        {/* LOGO */}
-        <div className="flex items-center gap-3 px-7 py-7">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5] text-xl">
-            ✦
-          </div>
-          <div>
-            <h1 className="text-lg font-bold tracking-tight text-[#292524]">
-              HR Portal
-            </h1>
-            <p className="text-xs text-[#a8a29e]">People management</p>
-          </div>
-        </div>
-        {/* SIDEBAR NAVIGATION */}
-        <div className="px-4">
-          <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
-            Account
-          </p>
-
-          {/* MY DASHBOARD  */}
-          <button onClick={()=>navigate("/user-dashboard")} className="flex w-full mt-2 items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
-            <span className="text-lg">♡</span>
-            My Dashboard
-          </button>
-          
-          {/* MY PROFILE */}
-          <button className="flex w-full mt-2 items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
-            <span className="text-lg">♡</span>
-            My Profile
-          </button>
-          
-          
-        </div>
-        {/* SIDEBAR USER*/}
-        <div className="mt-auto p-4">
-          <div className="mb-3 rounded-2xl bg-[#faf8f5] p-4">
-            <div className="flex items-center gap-3">
-              {/* AVATAR */}
-
-              {/* <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f3d4d9] text-sm font-bold text-[#9f4f5c]">
-                {profilePic ? (
-                  <img
-                    src={profilePic}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-3xl font-bold text-purple-700">
-                    {user?.fullname?.charAt(0)?.toUpperCase() || "D"}
-                  </span>
-                )}
-              </div> */}
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#f3d4d9]">
-                {profilePic ? (
-                  <img
-                    src={profilePic}
-                    alt={user?.fullname || "Profile"}
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                    
-                  />
-                  
-                ) : (
-                  <span className="text-xl font-bold text-purple-700">
-                    {user?.fullname?.charAt(0)?.toUpperCase() || "U"}
-                  </span>
-                )}
-              </div>
-
-              {/* USER INFO */}
-
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-[#292524]">
-                  {user?.fullname || "User" }
-                </p>
-
-                <p className="text-xs text-[#a8a29e]">
-                  {getRoleName(user?.role)}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* LOGOUT */}
-
-          <button
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#a85c65] transition hover:bg-[#fff1f2]"
-          >
-            <span className="text-lg">↪</span>
-            Logout
-          </button>
-        </div>
-      </aside>
-
+    <div className="min-h-screen  bg-[#faf8f5] text-[#292524]">
       {/* MAIN CONTENT */}
 
-      <main className="lg:ml-64">
+      <main className=" ">
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
           {/*  MOBILE HEADER */}
 
-          <div className="mb-7 flex items-center justify-between lg:hidden">
+          {/* <div className="mb-7 flex items-center justify-between lg:hidden">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5]">
                 ✦
@@ -254,7 +151,7 @@ const Profile = () => {
             >
               Logout
             </button>
-          </div>
+          </div> */}
 
           {/* PAGE HEADER */}
 
@@ -438,9 +335,8 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* =================================================
-              FOOTER
-          ================================================= */}
+          {/*
+              FOOTER*/}
 
           <div className="mt-6 flex flex-col items-center justify-between gap-2 text-xs text-[#aaa39d] sm:flex-row">
             <p>HR Portal · People management</p>

@@ -117,156 +117,39 @@ const UserHistoryDashboard = () => {
 
   const lastSevenDays = Array.isArray(attendance) ? attendance.slice(0, 7) : [];
 
-  // const getLocalDate = () => {
-  //   const now = new Date();
-
-  //   const year = now.getFullYear();
-  //   const month = String(now.getMonth() + 1).padStart(2, "0");
-  //   const day = String(now.getDate()).padStart(2, "0");
-
-  //   return `${year}-${month}-${day}`;
-  // };
-
-  // const today = getLocalDate();
-
-  // const todayAttendance = Array.isArray(attendance)
-  //   ? attendance.find((record) => {
-  //       if (!record?.tap_in_date) return false;
-
-  //       // MySQL DATE can already be "2026-08-21"
-  //       const recordDate = String(record.tap_in_date).slice(0, 10);
-
-  //       return recordDate === today;
-  //     })
-  //   : null;
-
   // ================= TODAY'S ATTENDANCE =================
 
-const getLocalDate = (dateValue) => {
-  if (!dateValue) return null;
+  const getLocalDate = (dateValue) => {
+    if (!dateValue) return null;
 
-  const date = new Date(dateValue);
+    const date = new Date(dateValue);
 
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
+    if (Number.isNaN(date.getTime())) {
+      return null;
+    }
 
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-  return `${year}-${month}-${day}`;
-};
+    return `${year}-${month}-${day}`;
+  };
 
-const today = getLocalDate(new Date());
+  const today = getLocalDate(new Date());
 
-const todayAttendance = Array.isArray(attendance)
-  ? attendance.find((record) => {
-      const recordDate = getLocalDate(record?.tap_in_date);
+  const todayAttendance = Array.isArray(attendance)
+    ? attendance.find((record) => {
+        const recordDate = getLocalDate(record?.tap_in_date);
 
-      return recordDate === today;
-    })
-  : null;
-  // UI
+        return recordDate === today;
+      })
+    : null;
+  // UI 
 
   return (
     <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
-      {/* ================= SIDEBAR ================= */}
-
-      <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-[#eee7df] bg-white lg:flex lg:flex-col">
-        {/* LOGO */}
-
-        <div className="flex items-center gap-3 px-7 py-7">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5] text-xl">
-            ✦
-          </div>
-
-          <div>
-            <h1 className="text-lg font-bold tracking-tight">HR Portal</h1>
-            <p className="text-xs text-[#a8a29e]">People management</p>
-          </div>
-        </div>
-
-        {/* NAVIGATION */}
-
-        <div className="px-4">
-          <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
-            Account
-          </p>
-
-          {/* DASHBOARD */}
-
-          <button className="mb-2 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]">
-            <span className="text-lg">♡</span>
-            My Dashboard
-          </button>
-
-          {/* PROFILE */}
-
-          <button
-            onClick={() => navigate("/profile")}
-            className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-[#8b5aa8] transition hover:bg-[#f6eafa]"
-          >
-            <span className="text-lg">♡</span>
-            My Profile
-          </button>
-        </div>
-
-        {/* USER / LOGOUT */}
-
-        <div className="mt-auto p-4">
-          {/* USER CARD */}
-
-          <div className="mb-3 rounded-2xl bg-[#faf8f5] p-4">
-            <div className="flex items-center gap-3">
-              {/* AVATAR */}
-
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#f3d4d9]">
-                {profilePic ? (
-                  <img
-                    src={profilePic}
-                    alt={user?.fullname || "Profile"}
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                  />
-                ) : (
-                  <span className="text-xl font-bold text-purple-700">
-                    {user?.fullname?.charAt(0)?.toUpperCase() || "U"}
-                  </span>
-                )}
-              </div>
-
-              {/* USER INFO */}
-
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-[#292524]">
-                  {user?.fullname || "User"}
-                </p>
-
-                <p className="text-xs text-[#a8a29e]">
-                  {getRoleName(user?.role)}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* LOGOUT */}
-
-          <button
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#a85c65] transition hover:bg-[#fff1f2]"
-          >
-            <span>↪</span>
-            Logout
-          </button>
-        </div>
-      </aside>
-
       {/* ================= MAIN ================= */}
-
-      <main className="lg:ml-64">
+      <main className="">
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
           {/* ================= HEADER ================= */}
 
@@ -389,7 +272,7 @@ const todayAttendance = Array.isArray(attendance)
 
                 <div>
                   <h3 className="text-xl font-bold text-[#292524]">
-                   Attendance History
+                    Attendance History
                   </h3>
 
                   <p className="mt-1 text-sm text-[#9c958f]">

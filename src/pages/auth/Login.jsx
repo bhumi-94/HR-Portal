@@ -26,33 +26,24 @@ const Login = () => {
     e.preventDefault();
 
     try {
-    const result = await dispatch(loginUser(formData)).unwrap();
-    console.log("Login successful:", result);
+      const result = await dispatch(loginUser(formData)).unwrap();
 
-    // Save token
-    localStorage.setItem(
-      "token",
-      result.token
-    );
+      // Save token in localstorage
+      localStorage.setItem("token", result.token);
 
-    // Save user
-    localStorage.setItem(
-      "user",
-      JSON.stringify(result.user)
-    );
+      // Save user in local storage
+      localStorage.setItem("user", JSON.stringify(result.user));
 
-    if (result.user.role === 1) {
-        navigate("/dashboard");
+      if (Number(result.user.role) === 1) {
+        navigate("/dashboard", { replace: true });
       } else {
-        navigate("/profile");
+        navigate("/user-dashboard", { replace: true });
       }
-    // navigate("/dashboard");
-      } catch (error) {
-        alert(error || "Login failed");
-      }
-    };
+    } catch (error) {
+      alert(error || "Login failed");
+    }
+  };
 
-    
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-blue-50 p-4 sm:p-6">
       {/* Main Card */}
