@@ -75,13 +75,9 @@ const Dashboard = () => {
   ).length;
 
   return (
-  
     <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
-    
       <main className="">
-      
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-          
           <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-2 text-sm font-medium text-[#b08a68]">

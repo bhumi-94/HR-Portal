@@ -10,7 +10,7 @@ const MainLayout = () => {
       <Sidebar />
 
       {/* Page Content */}
-      <main className="min-h-screen lg:ml-64">
+      <main className="min-h-screen min-w-0 lg:ml-64">
         <Outlet />
       </main>
 

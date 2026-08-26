@@ -130,28 +130,7 @@ const Profile = () => {
 
       <main className=" ">
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-          {/*  MOBILE HEADER */}
 
-          {/* <div className="mb-7 flex items-center justify-between lg:hidden">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5]">
-                ✦
-              </div>
-
-              <div>
-                <h1 className="font-bold text-[#292524]">HR Portal</h1>
-
-                <p className="text-xs text-[#a8a29e]">My Profile</p>
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-[#a85c65] shadow-sm"
-            >
-              Logout
-            </button>
-          </div> */}
 
           {/* PAGE HEADER */}
 

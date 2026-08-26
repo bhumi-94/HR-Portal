@@ -86,6 +86,8 @@ const AppRoutes = () => {
         <Route path="/employee-history" element={<EmployeeHistory />} />
 
         <Route path="/employee-leave" element={<EmployeeLeave />} />
+        <Route path="/hr/employee-leave" element={<EmployeeLeave />}
+/>
       </Route>
 
       {/* ================= 404 ================= */}
