@@ -183,63 +183,7 @@ const EmployeeHistory = () => {
   if (historyLoading && history.length === 0) {
     return (
       <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
-        {/* SIDEBAR */}
-        <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 border-r border-[#eee7df] bg-white lg:flex lg:flex-col">
-          <div className="flex items-center gap-3 px-7 py-7">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5] text-xl">
-              ✦
-            </div>
-
-            <div>
-              <h1 className="text-lg font-bold tracking-tight text-[#292524]">
-                HR Portal
-              </h1>
-
-              <p className="text-xs text-[#a8a29e]">People management</p>
-            </div>
-          </div>
-
-          <div className="px-4">
-            <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
-              Workspace
-            </p>
-
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-[#77716b] transition hover:bg-[#faf5fc]"
-            >
-              <span className="text-lg">♙</span>
-              Users
-            </button>
-
-            <button
-              onClick={() => navigate("/employee-history")}
-              className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
-            >
-              <span className="text-lg">◷</span>
-              Employee History
-            </button>
-
-            <button
-              onClick={() => navigate("/employee-leave")}
-              className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
-            >
-              <span className="text-lg">◷</span>
-              Employee Leaves
-            </button>
-          </div>
-
-          <div className="mt-auto p-4">
-            <button
-              onClick={handleLogout}
-              className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-[#a85c65] transition hover:bg-[#fff1f2]"
-            >
-              <span>↪</span>
-              Logout
-            </button>
-          </div>
-        </aside>
-
+       
         {/* LOADING CONTENT */}
         <main className="lg:ml-64">
           <div className="flex min-h-screen items-center justify-center">
@@ -261,28 +205,7 @@ const EmployeeHistory = () => {
       {/* MAIN CONTENT */}
       <main className="">
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-          {/* MOBILE HEADER */}
-          {/* <div className="mb-6 flex items-center justify-between lg:hidden">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5]">
-                ✦
-              </div>
-
-              <div>
-                <h1 className="font-bold">HR Portal</h1>
-
-                <p className="text-xs text-[#a8a29e]">People management</p>
-              </div>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-[#a85c65] shadow-sm"
-            >
-              Logout
-            </button>
-          </div> */}
-
+        
           {/* PAGE HEADER */}
           <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
@@ -329,9 +252,8 @@ const EmployeeHistory = () => {
             </div>
           )}
 
-          {/* =================================================
-              STAT CARDS
-          ================================================== */}
+          {/* 
+              STAT CARDS */}
           <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {/* TOTAL EMPLOYEES */}
             <div className="rounded-[24px] border border-[#eee7df] bg-white p-5 shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
@@ -490,14 +412,6 @@ const EmployeeHistory = () => {
                                   .toUpperCase()
                               )}
                             </div>
-                            {/* <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#e8d5f5] text-sm font-bold text-[#8b5aa8]">
-                              {employee.fullname
-                                ?.split(" ")
-                                .map((name) => name.charAt(0))
-                                .join("")
-                                .slice(0, 2)
-                                .toUpperCase()}
-                            </div> */}
                             <div className="min-w-0">
                               <p className="truncate text-sm font-bold text-[#292524]">
                                 {employee.fullname}

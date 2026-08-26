@@ -20,8 +20,22 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-0 z-40  h-screen w-64 border-r border-[#eee7df] bg-white lg:flex lg:flex-col ">
-      
+    <aside
+      className="
+    fixed
+    left-0
+    top-0
+    z-40 
+    hidden
+    h-screen
+    w-64
+    border-r
+    border-[#eee7df]
+    bg-white
+    md:flex
+    md:flex-col
+  "
+    >
       {/* LOGO */}
       <div className="flex items-center gap-3 px-7 py-7">
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8d5f5] text-xl">
@@ -32,9 +46,7 @@ const Sidebar = () => {
           <h1 className="text-lg font-bold tracking-tight text-[#292524]">
             HR Portal
           </h1>
-          <p className="text-xs text-[#a8a29e]">
-            People management
-          </p>
+          <p className="text-xs text-[#a8a29e]">People management</p>
         </div>
       </div>
 

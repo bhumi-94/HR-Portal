@@ -1,154 +1,149 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
-  getLeaveSummary,
+  fetchLeaveSummary,
+  fetchMyLeaveRequests,
   requestLeave,
-  getMyLeaves,
 } from "./leaveThunk";
 
 const initialState = {
   summary: {
     casual: {
-      total: 0,
+      allocated: 7,
+      used: 0,
       pending: 0,
+      remaining: 7,
     },
 
     sick: {
-      total: 0,
+      allocated: 7,
+      used: 0,
       pending: 0,
+      remaining: 7,
     },
 
     wfh: {
-      total: 0,
+      allocated: 0,
+      used: 0,
       pending: 0,
+      remaining: 0,
     },
   },
 
-  leaves: [],
-  loading: false,
-  submitting: false,
-  error: null,
-  success: false,
-  message: "",
-};
+  requests: [],
 
+  loading: false,
+
+  requestLoading: false,
+
+  error: null,
+
+  requestError: null,
+
+  requestSuccess: false,
+};
 
 const leaveSlice = createSlice({
   name: "leave",
+
   initialState,
+
   reducers: {
-    clearLeaveError: (state) => {
+    clearLeaveMessages: (state) => {
       state.error = null;
-    },
-    clearLeaveSuccess: (state) => {
-      state.success = false;
-      state.message = "";
-    },
-    resetLeaveState: (state) => {
-      state.submitting = false;
-      state.error = null;
-      state.success = false;
-      state.message = "";
+      state.requestError = null;
+      state.requestSuccess = false;
     },
   },
 
-
   extraReducers: (builder) => {
-
-    // GET SUMMARY
+    // =========================================
+    // FETCH LEAVE SUMMARY
+    // =========================================
 
     builder
-      .addCase(
-        getLeaveSummary.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
-      .addCase(
-        getLeaveSummary.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.summary =
-            action.payload.data;
-        }
-      )
-      .addCase(
-        getLeaveSummary.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error =
-            action.payload;
-        }
-      );
+      .addCase(fetchLeaveSummary.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
 
+      .addCase(fetchLeaveSummary.fulfilled, (state, action) => {
+        state.loading = false;
 
+        state.summary = {
+          casual: {
+            allocated: Number(action.payload?.casual?.allocated || 7),
+            used: Number(action.payload?.casual?.used || 0),
+            pending: Number(action.payload?.casual?.pending || 0),
+            remaining: Number(action.payload?.casual?.remaining ?? 7),
+          },
+
+          sick: {
+            allocated: Number(action.payload?.sick?.allocated || 7),
+            used: Number(action.payload?.sick?.used || 0),
+            pending: Number(action.payload?.sick?.pending || 0),
+            remaining: Number(action.payload?.sick?.remaining ?? 7),
+          },
+
+          wfh: {
+            allocated: Number(action.payload?.wfh?.allocated || 0),
+            used: Number(action.payload?.wfh?.used || 0),
+            pending: Number(action.payload?.wfh?.pending || 0),
+            remaining: Number(action.payload?.wfh?.remaining || 0),
+          },
+        };
+      })
+
+      .addCase(fetchLeaveSummary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // =========================================
+    // FETCH MY LEAVE REQUESTS
+    // =========================================
+
+    builder
+      .addCase(fetchMyLeaveRequests.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchMyLeaveRequests.fulfilled, (state, action) => {
+        state.loading = false;
+        state.requests = action.payload || [];
+      })
+
+      .addCase(fetchMyLeaveRequests.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    // =========================================
     // REQUEST LEAVE
+    // =========================================
 
     builder
-      .addCase(
-        requestLeave.pending,
-        (state) => {
-          state.submitting = true;
-          state.error = null;
-          state.success = false;
-        }
-      )
-      .addCase(
-        requestLeave.fulfilled,
-        (state, action) => {
-          state.submitting = false;
-          state.success = true;
-          state.message =
-            action.payload.message;
-        }
-      )
-      .addCase(
-        requestLeave.rejected,
-        (state, action) => {
-          state.submitting = false;
-          state.success = false;
-          state.error =
-            action.payload;
-        }
-      );
+      .addCase(requestLeave.pending, (state) => {
+        state.requestLoading = true;
+        state.requestError = null;
+        state.requestSuccess = false;
+      })
 
-    // GET MY LEAVES
+      .addCase(requestLeave.fulfilled, (state) => {
+        state.requestLoading = false;
+        state.requestSuccess = true;
+        state.requestError = null;
+      })
 
-    builder
-      .addCase(
-        getMyLeaves.pending,
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
-      .addCase(
-        getMyLeaves.fulfilled,
-        (state, action) => {
-          state.loading = false;
-          state.leaves =
-            action.payload.data;
-        }
-      )
-
-      .addCase(
-        getMyLeaves.rejected,
-        (state, action) => {
-          state.loading = false;
-          state.error =
-            action.payload;
-        }
-      );
+      .addCase(requestLeave.rejected, (state, action) => {
+        state.requestLoading = false;
+        state.requestSuccess = false;
+        state.requestError = action.payload;
+      });
   },
 });
 
-
-export const {
-  clearLeaveError,
-  clearLeaveSuccess,
-  resetLeaveState,
-} = leaveSlice.actions;
-
+export const { clearLeaveMessages } = leaveSlice.actions;
 
 export default leaveSlice.reducer;

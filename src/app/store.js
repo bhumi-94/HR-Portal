@@ -5,6 +5,7 @@ import attendanceReducer
   from "../features/attendance/attendanceSlice";
 import leaveReducer 
   from "../features/leave/leaveSlice";
+import hrLeaveReducer from "../features/leave/hrLeaveSlice"
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,8 @@ const store = configureStore({
     employee: employeeReducer,
     attendance: attendanceReducer,
     leave: leaveReducer,
+    
+    hrLeave: hrLeaveReducer
   },
 });
 

@@ -144,7 +144,7 @@ const UserHistoryDashboard = () => {
         return recordDate === today;
       })
     : null;
-  // UI 
+  // UI
 
   return (
     <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
@@ -332,30 +332,25 @@ const UserHistoryDashboard = () => {
                       const rowKey =
                         record?.id ??
                         `${record?.tap_in_date || "date"}-${record?.tap_in_time || "time"}-${index}`;
-
+                        
                       return (
                         <tr
                           key={rowKey}
                           className="transition hover:bg-[#fcfaf8]"
                         >
                           {/* DATE */}
-
                           <td className="px-6 py-5">
                             <span className="font-semibold text-[#292524]">
                               {record?.tap_in_date || "—"}
                             </span>
                           </td>
-
                           {/* TAP IN */}
-
                           <td className="px-6 py-5">
                             <span className="rounded-xl bg-[#eaf7ef] px-3 py-2 text-sm font-medium text-[#43865c]">
                               {record?.tap_in_time || "—"}
                             </span>
                           </td>
-
                           {/* TAP OUT */}
-
                           <td className="px-6 py-5">
                             <span className="rounded-xl bg-[#fff1ef] px-3 py-2 text-sm font-medium text-[#b76b61]">
                               {record?.tap_out_time || "—"}
