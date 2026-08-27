@@ -14,6 +14,7 @@ import Profile from "../pages/dashboard/Profile";
 import UserHistoryDashboard from "../pages/dashboard/UserHistoryDashboard";
 import EmployeeHistory from "../pages/dashboard/EmployeeHistory";
 import EmployeeLeave from "../pages/dashboard/EmployeeLeave";
+import UserLeaveHistory from "../pages/dashboard/UserLeaveHistory";
 
 const AppRoutes = () => {
   const token = localStorage.getItem("token");
@@ -86,8 +87,9 @@ const AppRoutes = () => {
         <Route path="/employee-history" element={<EmployeeHistory />} />
 
         <Route path="/employee-leave" element={<EmployeeLeave />} />
-        <Route path="/hr/employee-leave" element={<EmployeeLeave />}
-/>
+        {/* <Route path="/hr/employee-leave" element={<EmployeeLeave />} /> */}
+        <Route path="/user-leave-history" element={<UserLeaveHistory/>}/>
+
       </Route>
 
       {/* ================= 404 ================= */}

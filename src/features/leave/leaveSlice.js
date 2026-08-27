@@ -4,6 +4,7 @@ import {
   fetchLeaveSummary,
   fetchMyLeaveRequests,
   requestLeave,
+  getLeaveHistory
 } from "./leaveThunk";
 
 const initialState = {
@@ -30,16 +31,12 @@ const initialState = {
     },
   },
 
+  history: [],
   requests: [],
-
   loading: false,
-
   requestLoading: false,
-
   error: null,
-
   requestError: null,
-
   requestSuccess: false,
 };
 
@@ -57,9 +54,7 @@ const leaveSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    // =========================================
     // FETCH LEAVE SUMMARY
-    // =========================================
 
     builder
       .addCase(fetchLeaveSummary.pending, (state) => {
@@ -99,9 +94,7 @@ const leaveSlice = createSlice({
         state.error = action.payload;
       });
 
-    // =========================================
     // FETCH MY LEAVE REQUESTS
-    // =========================================
 
     builder
       .addCase(fetchMyLeaveRequests.pending, (state) => {
@@ -119,9 +112,7 @@ const leaveSlice = createSlice({
         state.error = action.payload;
       });
 
-    // =========================================
     // REQUEST LEAVE
-    // =========================================
 
     builder
       .addCase(requestLeave.pending, (state) => {
@@ -141,6 +132,26 @@ const leaveSlice = createSlice({
         state.requestSuccess = false;
         state.requestError = action.payload;
       });
+
+    
+      builder
+
+        // existing cases...
+        .addCase(getLeaveHistory.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+
+        .addCase(getLeaveHistory.fulfilled, (state, action) => {
+          state.loading = false;
+          state.history = action.payload;
+        })
+
+        .addCase(getLeaveHistory.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        });
+  
   },
 });
 

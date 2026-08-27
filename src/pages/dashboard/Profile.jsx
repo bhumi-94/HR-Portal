@@ -4,14 +4,10 @@ import axios from "axios";
 
 const Profile = () => {
   const navigate = useNavigate();
-
   const storedUser = localStorage.getItem("user");
   const initialUser = storedUser ? JSON.parse(storedUser) : null;
-
   const fileInputRef = useRef(null);
-
   const [user, setUser] = useState(initialUser);
-
   const [profilePic, setProfilePic] = useState(
     initialUser?.profile_image
       ? `http://localhost:3000${initialUser.profile_image}`
@@ -30,13 +26,9 @@ const Profile = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
         console.log("CURRENT USER:", response.data);
-
         const currentUser = response.data.user || response.data;
-
         setUser(currentUser);
-
         localStorage.setItem("user", JSON.stringify(currentUser));
 
         if (currentUser.profile_image) {
