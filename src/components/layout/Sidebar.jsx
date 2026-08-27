@@ -104,6 +104,15 @@ const Sidebar = () => {
             <span className="text-lg">◈</span>
             My Profile
           </button>
+
+          <button
+            onClick={() => navigate("/user-leave-history")}
+            className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
+          >
+            <span className="text-lg">#</span>
+            Leave History
+          </button>
+
         </div>
       )}
 

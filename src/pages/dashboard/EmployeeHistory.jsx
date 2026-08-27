@@ -183,7 +183,6 @@ const EmployeeHistory = () => {
   if (historyLoading && history.length === 0) {
     return (
       <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
-       
         {/* LOADING CONTENT */}
         <main className="lg:ml-64">
           <div className="flex min-h-screen items-center justify-center">
@@ -205,7 +204,6 @@ const EmployeeHistory = () => {
       {/* MAIN CONTENT */}
       <main className="">
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-        
           {/* PAGE HEADER */}
           <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
@@ -307,9 +305,7 @@ const EmployeeHistory = () => {
             </div>
           </div>
 
-          {/* =================================================
-              HISTORY TABLE
-          ================================================== */}
+          {/*  HISTORY TABLE */}
           <div className="overflow-hidden rounded-[24px] border border-[#eee7df] bg-white shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
             {/* TABLE HEADER */}
             <div className="flex flex-col gap-2 border-b border-[#eee7df] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">

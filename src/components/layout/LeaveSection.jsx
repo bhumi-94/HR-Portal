@@ -17,18 +17,14 @@ const LeaveSection = () => {
   const { summary, requests, loading, requestSuccess, requestError } =
     useSelector((state) => state.leave);
 
-  // =========================================
   // FETCH DATA
-  // =========================================
 
   useEffect(() => {
     dispatch(fetchLeaveSummary());
     dispatch(fetchMyLeaveRequests());
   }, [dispatch]);
 
-  // =========================================
   // REFRESH AFTER REQUEST
-  // =========================================
 
   useEffect(() => {
     if (requestSuccess) {
@@ -37,10 +33,7 @@ const LeaveSection = () => {
     }
   }, [requestSuccess, dispatch]);
 
-  // =========================================
   // STATUS STYLE
-  // =========================================
-
   const getStatusStyle = (status) => {
     if (status === "Approved") {
       return "bg-[#e8f5ed] text-[#5d7f68]";
@@ -53,9 +46,7 @@ const LeaveSection = () => {
     return "bg-[#fff7e8] text-[#b08a68]";
   };
 
-  // =========================================
   // DATE FORMAT
-  // =========================================
 
   const formatDate = (date) => {
     if (!date) return "—";
@@ -67,9 +58,7 @@ const LeaveSection = () => {
     });
   };
 
-  // =========================================
   // LOADING
-  // =========================================
 
   if (loading && requests.length === 0) {
     return (
@@ -90,12 +79,10 @@ const LeaveSection = () => {
   return (
     <>
       <section className="mt-8 rounded-[28px] border border-[#eee7df] bg-white p-5 shadow-[0_8px_30px_rgba(80,60,40,0.04)] sm:p-6">
-        {/* =========================================
-            HEADER
-        ========================================= */}
+        {/*  HEADER */}
 
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
+          <div> 
             <p className="mb-1 text-sm font-medium text-[#b08a68]">
               Leave Management ✨
             </p>

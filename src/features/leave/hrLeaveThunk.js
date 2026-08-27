@@ -38,10 +38,7 @@ export const fetchAllLeaveRequests = createAsyncThunk(
   }
 );
 
-
-// =====================================================
 // APPROVE LEAVE
-// =====================================================
 
 export const approveLeaveRequest = createAsyncThunk(
   "/approve",

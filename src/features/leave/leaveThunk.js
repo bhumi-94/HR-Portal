@@ -3,9 +3,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/api/leave";
 
-// =====================================================
 // GET LEAVE SUMMARY
-// =====================================================
 
 export const fetchLeaveSummary = createAsyncThunk(
   "leave/fetchSummary",
@@ -30,20 +28,18 @@ export const fetchLeaveSummary = createAsyncThunk(
 
       if (error.response) {
         return rejectWithValue(
-          error.response.data?.message ||
-            "Failed to fetch leave summary"
+          error.response.data?.message || "Failed to fetch leave summary",
         );
       }
 
       return rejectWithValue(
-        "Unable to connect to server. Please check your backend."
+        "Unable to connect to server. Please check your backend.",
       );
     }
-  }
+  },
 );
 
 // GET MY LEAVE REQUESTS
-// =====================================================
 
 export const fetchMyLeaveRequests = createAsyncThunk(
   "leave/fetchMyRequests",
@@ -68,22 +64,18 @@ export const fetchMyLeaveRequests = createAsyncThunk(
 
       if (error.response) {
         return rejectWithValue(
-          error.response.data?.message ||
-            "Failed to fetch leave requests"
+          error.response.data?.message || "Failed to fetch leave requests",
         );
       }
 
       return rejectWithValue(
-        "Unable to connect to server. Please check your backend."
+        "Unable to connect to server. Please check your backend.",
       );
     }
-  }
+  },
 );
 
-// =====================================================
 // REQUEST LEAVE
-// =====================================================
-
 export const requestLeave = createAsyncThunk(
   "leave/request",
   async (leaveData, { rejectWithValue }) => {
@@ -94,32 +86,91 @@ export const requestLeave = createAsyncThunk(
         return rejectWithValue("Authentication token not found");
       }
 
-      const response = await axios.post(
-        `${API_URL}/request`,
-        leaveData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-
+      const response = await axios.post(`${API_URL}/request`, leaveData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Request leave error:", error);
-
       if (error.response) {
         return rejectWithValue(
-          error.response.data?.message ||
-            "Failed to submit leave request"
+          error.response.data?.message || "Failed to submit leave request",
         );
       }
+      return rejectWithValue(
+        "Unable to connect to server. Please check your backend.",
+      );
+    }
+  },
+);
+export const getLeaveHistory = createAsyncThunk(
+  "leave/getLeaveHistory",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `${API_URL}/getLeaveHistory`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("LEAVE HISTORY:", response.data.data);
+
+      return response.data.data;
+    } catch (error) {
+      console.error(
+        "Leave history error:",
+        error.response?.data || error.message
+      );
 
       return rejectWithValue(
-        "Unable to connect to server. Please check your backend."
+        error.response?.data?.message ||
+          "Failed to fetch leave history"
       );
     }
   }
 );
+
+// export const getLeaveHistory = createAsyncThunk(
+//   "leave/getLeaveHistory",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const token = localStorage.getItem("token");
+
+//       if (!token) {
+//         return rejectWithValue("No token found. Please login again.");
+//       }
+
+//       const response = await axios.get(
+//         "http://localhost:3000/api/leave/history",
+//         {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         }
+//       );
+
+//       console.log("History API response:", response.data);
+
+//       return response.data.data;
+//     } catch (error) {
+//       console.error(
+//         "History API error:",
+//         error.response?.data || error.message
+//       );
+
+//       return rejectWithValue(
+//         error.response?.data?.message ||
+//           "Failed to fetch leave history"
+//       );
+//     }
+//   }
+// );

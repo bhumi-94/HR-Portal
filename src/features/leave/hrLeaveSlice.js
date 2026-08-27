@@ -8,15 +8,10 @@ import {
 
 const initialState = {
   requests: [],
-
   loading: false,
-
   error: null,
-
   actionLoading: false,
-
   actionError: null,
-
   actionSuccess: false,
 };
 
@@ -34,9 +29,7 @@ const hrLeaveSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    // =================================================
     // GET ALL REQUESTS
-    // =================================================
 
     builder
       .addCase(fetchAllLeaveRequests.pending, (state) => {
@@ -56,10 +49,7 @@ const hrLeaveSlice = createSlice({
         state.error = action.payload;
       });
 
-    // =================================================
     // APPROVE
-    // =================================================
-
     builder
       .addCase(approveLeaveRequest.pending, (state) => {
         state.actionLoading = true;
@@ -86,9 +76,7 @@ const hrLeaveSlice = createSlice({
         state.actionError = action.payload;
       });
 
-    // =================================================
     // REJECT
-    // =================================================
 
     builder
       .addCase(rejectLeaveRequest.pending, (state) => {
