@@ -6,7 +6,7 @@ import attendanceReducer
 import leaveReducer 
   from "../features/leave/leaveSlice";
 import hrLeaveReducer from "../features/leave/hrLeaveSlice"
-
+import holidayReducer from "../features/holiday/holidaySlice"
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -14,7 +14,8 @@ const store = configureStore({
     attendance: attendanceReducer,
     leave: leaveReducer,
     
-    hrLeave: hrLeaveReducer
+    hrLeave: hrLeaveReducer,
+    holiday : holidayReducer
   },
 });
 

@@ -22,9 +22,7 @@ const initialState = {
 
 const attendanceSlice = createSlice({
   name: "attendance",
-
   initialState,
-
   reducers: {
     clearAttendanceMessage: (state) => {
       state.message = null;

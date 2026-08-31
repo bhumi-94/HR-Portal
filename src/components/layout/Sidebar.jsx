@@ -81,9 +81,17 @@ const Sidebar = () => {
             <span className="text-lg">▣</span>
             Employee Leaves
           </button>
+
+          <button
+            onClick={() => navigate("/holiday-calendar")}
+            className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
+          >
+            <span className="text-lg">!</span>
+            Holidays
+          </button>
         </div>
       ) : (
-        // ================= EMPLOYEE SIDEBAR =================
+        // EMPLOYEE SIDEBAR 
         <div className="px-4">
           <p className="mb-3 px-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#b0aaa4]">
             Workspace
@@ -111,6 +119,14 @@ const Sidebar = () => {
           >
             <span className="text-lg">#</span>
             Leave History
+          </button>
+
+          <button
+            onClick={() => navigate("/holiday-calendar")}
+            className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
+          >
+            <span className="text-lg">!</span>
+            Holidays
           </button>
 
         </div>
