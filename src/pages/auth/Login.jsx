@@ -13,12 +13,15 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    RememberMe: false,
   });
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -121,13 +124,15 @@ const Login = () => {
               {/* Remember Me + Forgot Password */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                 <label
-                  htmlFor="terms"
+                  htmlFor="rememberMe"
                   className="flex cursor-pointer items-center gap-2 text-xs text-gray-600 sm:text-sm"
                 >
                   <input
                     type="checkbox"
-                    id="terms"
-                    name="terms"
+                    id="rememberMe"
+                    name="rememberMe"
+                    checked={formData.rememberMe}
+                    onChange={handleChange}
                     className="h-4 w-4 cursor-pointer accent-blue-600"
                   />
 
@@ -154,9 +159,7 @@ const Login = () => {
               {/* Divider */}
               <div className="flex items-center gap-3 py-1">
                 <hr className="flex-1 border-gray-300" />
-
                 <span className="text-sm text-gray-500">or</span>
-
                 <hr className="flex-1 border-gray-300" />
               </div>
 

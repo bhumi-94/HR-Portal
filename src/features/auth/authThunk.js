@@ -10,19 +10,17 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_URL}/register`,
-        formData
-      );
+      const response = await axios.post(`${API_URL}/register`, formData);
       return response.data;
     } catch (error) {
       console.error("REGISTER ERROR:", error.response?.data);
       return rejectWithValue(
-        error.response?.data?.message || "Registration failed"
+        error.response?.data?.message || "Registration failed",
       );
     }
-  }
+  },
 );
+
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (formData, { dispatch, rejectWithValue }) => {
@@ -32,13 +30,12 @@ export const loginUser = createAsyncThunk(
       const token = response.data.token;
       localStorage.setItem("token", token);
       return response.data;
-
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
     }
   },
-  
 );
+
 // FORGOT PASSWORD
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
