@@ -96,31 +96,47 @@ const EmployeeLeave = () => {
 
     return "bg-[#fff7e8] text-[#b08a68]";
   };
-   
-  // APPROVE   
 
-  const handleApprove = async (id) => {
-  
+  const handleApprove = async (leaveId) => {
+    try {
+      console.log("HANDLE APPROVE LEAVE ID:", leaveId);
 
-    const result = await dispatch(approveLeaveRequest(id));
+      if (!leaveId) {
+        console.error("Leave ID is missing");
+        return;
+      }
 
-    if (approveLeaveRequest.fulfilled.match(result)) {
+      const result = await dispatch(approveLeaveRequest(leaveId)).unwrap();
+
+      console.log("APPROVE SUCCESS:", result);
+
+      // Refresh leave list
       dispatch(fetchAllLeaveRequests());
+    } catch (error) {
+      console.error("HANDLE APPROVE ERROR:", error);
     }
   };
-   
-  // REJECT   
 
-  const handleReject = async (id) => {
-  
-    const result = await dispatch(rejectLeaveRequest(id));
+  const handleReject = async (leaveId) => {
+    try {
+      console.log("HANDLE REJECT LEAVE ID:", leaveId);
 
-    if (rejectLeaveRequest.fulfilled.match(result)) {
+      if (!leaveId) {
+        console.error("Leave ID is missing");
+        return;
+      }
+
+      const result = await dispatch(rejectLeaveRequest(leaveId)).unwrap();
+
+      console.log("REJECT SUCCESS:", result);
+
+      // Refresh leave list
       dispatch(fetchAllLeaveRequests());
+    } catch (error) {
+      console.error("HANDLE REJECT ERROR:", error);
     }
   };
-   
-  // LOADING   
+  // LOADING
 
   if (loading && requests.length === 0) {
     return (

@@ -138,39 +138,3 @@ export const getLeaveHistory = createAsyncThunk(
     }
   }
 );
-
-// export const getLeaveHistory = createAsyncThunk(
-//   "leave/getLeaveHistory",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const token = localStorage.getItem("token");
-
-//       if (!token) {
-//         return rejectWithValue("No token found. Please login again.");
-//       }
-
-//       const response = await axios.get(
-//         "http://localhost:3000/api/leave/history",
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       );
-
-//       console.log("History API response:", response.data);
-
-//       return response.data.data;
-//     } catch (error) {
-//       console.error(
-//         "History API error:",
-//         error.response?.data || error.message
-//       );
-
-//       return rejectWithValue(
-//         error.response?.data?.message ||
-//           "Failed to fetch leave history"
-//       );
-//     }
-//   }
-// );
