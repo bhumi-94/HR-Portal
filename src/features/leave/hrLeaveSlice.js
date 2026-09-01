@@ -50,31 +50,31 @@ const hrLeaveSlice = createSlice({
       });
 
     // APPROVE
-    builder
-      .addCase(approveLeaveRequest.pending, (state) => {
-        state.actionLoading = true;
-        state.actionError = null;
-        state.actionSuccess = false;
-      })
+    // builder
+    //   .addCase(approveLeaveRequest.pending, (state) => {
+    //     state.actionLoading = true;
+    //     state.actionError = null;
+    //     state.actionSuccess = false;
+    //   })
 
-      .addCase(approveLeaveRequest.fulfilled, (state, action) => {
-        state.actionLoading = false;
-        state.actionSuccess = true;
+    //   .addCase(approveLeaveRequest.fulfilled, (state, action) => {
+    //     state.actionLoading = false;
+    //     state.actionSuccess = true;
 
-        const leaveId = action.payload.leaveId;
+    //     const leaveId = action.payload.leaveId;
 
-        const request = state.requests.find((item) => item.id === leaveId);
+    //     const request = state.requests.find((item) => item.id === leaveId);
 
-        if (request) {
-          request.status = "Approved";
-        }
-      })
+    //     if (request) {
+    //       request.status = "Approved";
+    //     }
+    //   })
 
-      .addCase(approveLeaveRequest.rejected, (state, action) => {
-        state.actionLoading = false;
+    //   .addCase(approveLeaveRequest.rejected, (state, action) => {
+    //     state.actionLoading = false;
 
-        state.actionError = action.payload;
-      });
+    //     state.actionError = action.payload;
+    //   });
 
     // REJECT
 

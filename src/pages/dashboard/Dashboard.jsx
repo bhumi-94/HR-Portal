@@ -73,7 +73,6 @@ const Dashboard = () => {
   const disabledUsers = users.filter(
     (user) => Number(user.isActive) === 0,
   ).length;
-
   return (
     <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
       <main className="">
@@ -83,7 +82,6 @@ const Dashboard = () => {
               <p className="mb-2 text-sm font-medium text-[#b08a68]">
                 Hello EveryOne ✨
               </p>
-
               <h2 className="text-3xl font-bold tracking-tight text-[#292524] sm:text-4xl">
                 Your people
               </h2>

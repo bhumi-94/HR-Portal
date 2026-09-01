@@ -7,7 +7,7 @@ import ResetPassword from "../pages/auth/ResetPassword";
 
 import PrivateRoute from "../routes/PrivateRoute";
 
-import MainLayout from "../layouts/mainLayout";
+import MainLayout from "../layouts/MainLayout";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Profile from "../pages/dashboard/Profile";
