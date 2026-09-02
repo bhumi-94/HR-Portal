@@ -39,7 +39,7 @@ export const fetchAllLeaveRequests = createAsyncThunk(
 export const approveLeaveRequest = createAsyncThunk(
   "hrLeave/approveLeaveRequest",
 
-  async (id, { rejectWithValue }) => {
+  async (leaveId, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -47,12 +47,12 @@ export const approveLeaveRequest = createAsyncThunk(
         return rejectWithValue("Authentication token not found");
       }
 
-      if (!id) {
-        return rejectWithValue("id is missing");
-      }
+      // if (!id) {
+      //   return rejectWithValue("id is missing");
+      // }
       // console.log("APPROVING LEAVE ID:", leaveId);
       const response = await axios.put(
-        `${API_URL}/${id}/approve`,
+        `${API_URL}/${leaveId}/approve`,
         {},
         {
           headers: {

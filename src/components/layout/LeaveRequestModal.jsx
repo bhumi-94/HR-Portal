@@ -12,7 +12,7 @@ const LeaveRequestModal = ({ isOpen, onClose }) => {
 
   const dispatch = useDispatch();
 
-  const { submitting, error, success, message } = useSelector(
+  const { submitting } = useSelector(
     (state) => state.leave,
   );
 
