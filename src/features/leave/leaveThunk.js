@@ -51,7 +51,7 @@ export const fetchMyLeaveRequests = createAsyncThunk(
         return rejectWithValue("Authentication token not found");
       }
 
-      const response = await axios.get(`${API_URL}/my-requests`, {
+      const response = await axios.get(`${API_URL}/my`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

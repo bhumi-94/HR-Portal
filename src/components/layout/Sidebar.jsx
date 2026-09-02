@@ -102,6 +102,15 @@ const Sidebar = () => {
             <span className="text-lg">▣</span>
             Employee Leaves
           </button>
+
+          <button
+            onClick={() => navigate("/holiday-calendar")}
+            className="mt-3 flex w-full items-center gap-3 rounded-2xl bg-[#f6eafa] px-4 py-3 text-sm font-semibold text-[#8b5aa8]"
+          >
+            <span className="text-lg">!</span>
+            Holidays
+          </button>
+          
         </div>
       ) : (
         // EMPLOYEE SIDEBAR
