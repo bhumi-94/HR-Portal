@@ -103,18 +103,6 @@ const Feedback = () => {
                 readOnly
               />
             </div>
-            {/* <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Job Title
-              </label>
-
-              <input
-                type="text"
-                value={user?.job_title || ""}
-                readOnly
-                className="w-full rounded-xl border border-gray-200 bg-[#fffcf8] px-4 py-3  outline-none focus:ring-2 focus:ring-[#9b63bd] cursor-not-allowed"
-              />
-            </div> */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Problem <span className="text-red-500">*</span>

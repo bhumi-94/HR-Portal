@@ -1,30 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const API_URL = "http://localhost:3000/api/feedback";
+import apiClient from "../../api/apiClient";
 
 export const submitFeedback = createAsyncThunk(
   "feedback/submitFeedback",
+
   async (feedbackData, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.post(`${API_URL}/submit`, feedbackData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+      const response = await apiClient.post(
+        "/feedback/submit",
+        feedbackData
+      );
 
       return response.data;
     } catch (error) {
-      console.error("Submit feedback error:", error);
+      console.error(
+        "Submit feedback error:",
+        error.response?.data || error.message
+      );
 
       return rejectWithValue(
-        error.response?.data?.message || "Failed to submit feedback",
+        error.response?.data?.message ||
+          "Failed to submit feedback"
       );
     }
-  },
+  }
 );
 
 export const fetchMyFeedback = createAsyncThunk(
@@ -32,20 +31,21 @@ export const fetchMyFeedback = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
-
-      const response = await axios.get(`${API_URL}/my`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+      const response = await apiClient.get(
+        "/feedback/my"
+      );
 
       return response.data.data || [];
     } catch (error) {
+      console.error(
+        "Fetch feedback error:",
+        error.response?.data || error.message
+      );
+
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch feedback",
+        error.response?.data?.message ||
+          "Failed to fetch feedback"
       );
     }
-  },
+  }
 );

@@ -7,13 +7,9 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
   return (
     <div className="min-h-screen bg-[#fafafa]">
-      {/* Fixed Sidebar */}
       <Sidebar />
 
-      {/* Fixed Header */}
       <Header />
-
-      {/* Main Content */}
       <main
         className="
           min-h-screen

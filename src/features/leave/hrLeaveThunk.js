@@ -1,8 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const API_URL = "http://localhost:3000/api/leave";
-
+import apiClient from "../../api/apiClient";
 export const fetchAllLeaveRequests = createAsyncThunk(
   "hrLeave/fetchAllRequests",
 
@@ -14,12 +11,7 @@ export const fetchAllLeaveRequests = createAsyncThunk(
         return rejectWithValue("Authentication token not found");
       }
 
-      const response = await axios.get(`${API_URL}/all`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
+      const response = await apiClient.get("/leave/all");
 
       console.log("ALL LEAVE REQUESTS:", response.data);
 
@@ -36,6 +28,7 @@ export const fetchAllLeaveRequests = createAsyncThunk(
     }
   },
 );
+
 export const approveLeaveRequest = createAsyncThunk(
   "hrLeave/approveLeaveRequest",
 
@@ -47,26 +40,18 @@ export const approveLeaveRequest = createAsyncThunk(
         return rejectWithValue("Authentication token not found");
       }
 
-      // if (!id) {
-      //   return rejectWithValue("id is missing");
-      // }
-      // console.log("APPROVING LEAVE ID:", leaveId);
-      const response = await axios.put(
-        `${API_URL}/${leaveId}/approve`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      if (!leaveId) {
+        return rejectWithValue("Leave ID is missing");
+      }
 
-          withCredentials: true,
-        },
-      );
+      console.log("APPROVING LEAVE ID:", leaveId);
+
+      const response = await apiClient.put(`/leave/${leaveId}/approve`, {});
 
       console.log("APPROVE RESPONSE:", response.data);
 
       return {
-        id,
+        leaveId,
         ...response.data,
       };
     } catch (error) {
@@ -81,6 +66,7 @@ export const approveLeaveRequest = createAsyncThunk(
     }
   },
 );
+
 export const rejectLeaveRequest = createAsyncThunk(
   "hrLeave/rejectLeaveRequest",
 
@@ -98,17 +84,7 @@ export const rejectLeaveRequest = createAsyncThunk(
 
       console.log("REJECTING LEAVE ID:", leaveId);
 
-      const response = await axios.put(
-        `${API_URL}/${leaveId}/reject`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-
-          withCredentials: true,
-        },
-      );
+      const response = await apiClient.put(`/leave/${leaveId}/reject`, {});
 
       console.log("REJECT RESPONSE:", response.data);
 

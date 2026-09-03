@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/attendance";
+import apiClient from "../../api/apiClient";
 
-// GET MY ATTENDANCE
+// =====================================================
+// FETCH MY ATTENDANCE
+// =====================================================
 
 export const fetchAttendance = createAsyncThunk(
   "attendance/fetchAttendance",
@@ -17,13 +18,8 @@ export const fetchAttendance = createAsyncThunk(
         return rejectWithValue("No token found. Please login again.");
       }
 
-      const response = await axios.get(
-        `${API_URL}/get-my-attendance`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await apiClient.get(
+        "/attendance/get-my-attendance"
       );
 
       return response.data.attendance || [];
@@ -41,7 +37,9 @@ export const fetchAttendance = createAsyncThunk(
   }
 );
 
+// =====================================================
 // TAP IN
+// =====================================================
 
 export const tapIn = createAsyncThunk(
   "attendance/tapIn",
@@ -55,14 +53,9 @@ export const tapIn = createAsyncThunk(
         return rejectWithValue("No token found. Please login again.");
       }
 
-      const response = await axios.post(
-        `${API_URL}/tap-in`,
-        {}, // request body
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await apiClient.post(
+        "/attendance/tap-in",
+        {}
       );
 
       return response.data;
@@ -80,7 +73,9 @@ export const tapIn = createAsyncThunk(
   }
 );
 
+// =====================================================
 // TAP OUT
+// =====================================================
 
 export const tapOut = createAsyncThunk(
   "attendance/tapOut",
@@ -94,14 +89,9 @@ export const tapOut = createAsyncThunk(
         return rejectWithValue("No token found. Please login again.");
       }
 
-      const response = await axios.post(
-        `${API_URL}/tap-out`,
-        {}, // request body
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await apiClient.post(
+        "/attendance/tap-out",
+        {}
       );
 
       return response.data;
@@ -119,33 +109,38 @@ export const tapOut = createAsyncThunk(
   }
 );
 
-// Fetch employee history 
+// =====================================================
+// FETCH EMPLOYEE HISTORY
+// =====================================================
 
 export const fetchEmployeeHistory = createAsyncThunk(
   "attendance/fetchEmployeeHistory",
+
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
 
+      // Check token before sending request
       if (!token) {
         return rejectWithValue(
           "No token found. Please login again."
         );
       }
 
-      const response = await axios.get(
-        `${API_URL}/employee-history`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await apiClient.get(
+        "/attendance/employee-history"
       );
 
-      return response.data.history;
+      return response.data.history || [];
     } catch (error) {
+      console.log(
+        "FETCH EMPLOYEE HISTORY ERROR:",
+        error.response?.data || error.message
+      );
+
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch employee history"
+        error.response?.data?.message ||
+          "Failed to fetch employee history"
       );
     }
   }

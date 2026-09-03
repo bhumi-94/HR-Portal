@@ -11,14 +11,9 @@ import {
 
 const LeaveSection = () => {
   const dispatch = useDispatch();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { summary, requests, loading, requestSuccess, requestError } =
     useSelector((state) => state.leave);
-
-  // FETCH DATA
-
   useEffect(() => {
     dispatch(fetchLeaveSummary());
     dispatch(fetchMyLeaveRequests());
@@ -82,7 +77,7 @@ const LeaveSection = () => {
         {/*  HEADER */}
 
         <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div> 
+          <div>
             <p className="mb-1 text-sm font-medium text-[#b08a68]">
               Leave Management ✨
             </p>
@@ -137,9 +132,7 @@ const LeaveSection = () => {
 
             <div className="mt-5 flex flex-wrap justify-between gap-2 text-xs text-[#9c958f]">
               <span>Used: {summary.sick.used}</span>
-
               <span>Pending: {summary.sick.pending}</span>
-
               <span>Total: {summary.sick.allocated}</span>
             </div>
 
@@ -159,9 +152,6 @@ const LeaveSection = () => {
               />
             </div>
           </div>
-
-          {/* CASUAL LEAVE */}
-
           <div className="rounded-[24px] border border-[#eee7df] bg-[#fcfaf8] p-5 transition hover:shadow-[0_8px_25px_rgba(80,60,40,0.05)]">
             <div className="flex items-start justify-between">
               <div>
@@ -183,9 +173,7 @@ const LeaveSection = () => {
 
             <div className="mt-5 flex flex-wrap justify-between gap-2 text-xs text-[#9c958f]">
               <span>Used: {summary.casual.used}</span>
-
               <span>Pending: {summary.casual.pending}</span>
-
               <span>Total: {summary.casual.allocated}</span>
             </div>
 

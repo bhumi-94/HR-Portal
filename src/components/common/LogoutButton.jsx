@@ -5,11 +5,9 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Remove authentication data
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
-    // Go to login page
     navigate("/login", { replace: true });
   };
 

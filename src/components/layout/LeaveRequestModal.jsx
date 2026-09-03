@@ -16,7 +16,6 @@ const LeaveRequestModal = ({ isOpen, onClose }) => {
 
   const [duration, setDuration] = useState(0);
 
-  // Calculate duration
   useEffect(() => {
     if (!formData.startDate || !formData.endDate) {
       setDuration(0);

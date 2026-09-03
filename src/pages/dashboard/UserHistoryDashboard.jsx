@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -9,10 +11,14 @@ import {
 } from "../../features/attendance/attendanceThunk";
 
 import { logout } from "../../features/auth/authSlice";
+
 import LeaveSection from "../../components/layout/LeaveSection";
+
+import { BACKEND_URL } from "../../api/apiClient";
 
 const UserHistoryDashboard = () => {
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   // ATTENDANCE STATE
@@ -24,7 +30,6 @@ const UserHistoryDashboard = () => {
   } = useSelector((state) => state.attendance || {});
 
   // USER
-
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const getRoleName = (role) => {
@@ -36,16 +41,13 @@ const UserHistoryDashboard = () => {
   };
 
   // PROFILE IMAGE
-
-  const SERVER_URL = "http://localhost:3000";
-
   const profilePic = user?.profile_image
     ? user.profile_image.startsWith("http")
       ? user.profile_image
-      : `${SERVER_URL}${user.profile_image}`
+      : `${BACKEND_URL}${user.profile_image}`
     : null;
-  // FETCH ATTENDANCE
 
+  // FETCH ATTENDANCE
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -61,7 +63,6 @@ const UserHistoryDashboard = () => {
   }, [dispatch, navigate]);
 
   // TAP IN
-
   const handleTapIn = async () => {
     const token = localStorage.getItem("token");
 
@@ -81,7 +82,6 @@ const UserHistoryDashboard = () => {
   };
 
   // TAP OUT
-
   const handleTapOut = async () => {
     const token = localStorage.getItem("token");
 
@@ -101,7 +101,6 @@ const UserHistoryDashboard = () => {
   };
 
   // LOGOUT
-
   const handleLogout = () => {
     dispatch(logout());
 
@@ -114,8 +113,9 @@ const UserHistoryDashboard = () => {
   };
 
   // LAST 7 DAYS
-
-  const lastSevenDays = Array.isArray(attendance) ? attendance.slice(0, 7) : [];
+  const lastSevenDays = Array.isArray(attendance)
+    ? attendance.slice(0, 7)
+    : [];
 
   // ================= TODAY'S ATTENDANCE =================
 
@@ -129,7 +129,9 @@ const UserHistoryDashboard = () => {
     }
 
     const year = date.getFullYear();
+
     const month = String(date.getMonth() + 1).padStart(2, "0");
+
     const day = String(date.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
@@ -144,15 +146,14 @@ const UserHistoryDashboard = () => {
         return recordDate === today;
       })
     : null;
-  // UI
 
+  // UI
   return (
     <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
       {/* ================= MAIN ================= */}
-      <main className="">
+      <main>
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
           {/* ================= HEADER ================= */}
-
           <div className="mb-8">
             <p className="mb-2 text-sm font-medium text-[#b08a68]">
               Your space ✨
@@ -168,10 +169,8 @@ const UserHistoryDashboard = () => {
           </div>
 
           {/* ================= TAP BUTTONS ================= */}
-
           <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
             {/* TAP IN */}
-
             <button
               onClick={handleTapIn}
               disabled={loading}
@@ -179,7 +178,9 @@ const UserHistoryDashboard = () => {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-[#9c958f]">Start your workday</p>
+                  <p className="text-sm text-[#9c958f]">
+                    Start your workday
+                  </p>
 
                   <h3 className="mt-2 text-2xl font-bold text-[#292524]">
                     {loading ? "Please wait..." : "Tap In"}
@@ -197,7 +198,6 @@ const UserHistoryDashboard = () => {
             </button>
 
             {/* TAP OUT */}
-
             <button
               onClick={handleTapOut}
               disabled={loading}
@@ -205,7 +205,9 @@ const UserHistoryDashboard = () => {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-[#9c958f]">Finish your workday</p>
+                  <p className="text-sm text-[#9c958f]">
+                    Finish your workday
+                  </p>
 
                   <h3 className="mt-2 text-2xl font-bold text-[#292524]">
                     {loading ? "Please wait..." : "Tap Out"}
@@ -224,7 +226,6 @@ const UserHistoryDashboard = () => {
           </div>
 
           {/* ================= SUCCESS ================= */}
-
           {message && (
             <div className="mb-6 rounded-2xl border border-[#cce8d7] bg-[#eaf7ef] px-5 py-4 text-sm font-medium text-[#43865c]">
               {message}
@@ -232,15 +233,13 @@ const UserHistoryDashboard = () => {
           )}
 
           {/* ================= ERROR ================= */}
-
           {error && (
             <div className="mb-6 rounded-2xl border border-[#f3c6cc] bg-[#fff1f2] px-5 py-4 text-sm font-medium text-[#b4535c]">
               {error}
             </div>
           )}
 
-          {/* ================= HISTORY ================= */}
-
+          {/* ================= TODAY'S HISTORY ================= */}
           <div className="overflow-hidden rounded-[28px] border border-[#eee7df] bg-white shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
             <div className="border-b border-[#eee7df] px-6 py-6">
               <div className="flex items-center gap-4">
@@ -261,9 +260,10 @@ const UserHistoryDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="overflow-hidden mt-5 rounded-[28px] border border-[#eee7df] bg-white shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
-            {/* HEADER */}
 
+          {/* ================= ATTENDANCE HISTORY ================= */}
+          <div className="mt-5 overflow-hidden rounded-[28px] border border-[#eee7df] bg-white shadow-[0_8px_30px_rgba(80,60,40,0.04)]">
+            {/* HEADER */}
             <div className="border-b border-[#eee7df] px-6 py-6">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f3e8f8] text-lg">
@@ -283,7 +283,6 @@ const UserHistoryDashboard = () => {
             </div>
 
             {/* TABLE */}
-
             <div className="overflow-x-auto">
               <table className="min-w-full text-left">
                 <thead className="bg-[#faf8f5]">
@@ -304,7 +303,6 @@ const UserHistoryDashboard = () => {
 
                 <tbody className="divide-y divide-[#eee7df]">
                   {/* LOADING */}
-
                   {loading ? (
                     <tr>
                       <td
@@ -316,7 +314,6 @@ const UserHistoryDashboard = () => {
                     </tr>
                   ) : lastSevenDays.length === 0 ? (
                     /* NO DATA */
-
                     <tr>
                       <td
                         colSpan={3}
@@ -327,12 +324,13 @@ const UserHistoryDashboard = () => {
                     </tr>
                   ) : (
                     /* DATA */
-
                     lastSevenDays.map((record, index) => {
                       const rowKey =
                         record?.id ??
-                        `${record?.tap_in_date || "date"}-${record?.tap_in_time || "time"}-${index}`;
-                        
+                        `${record?.tap_in_date || "date"}-${
+                          record?.tap_in_time || "time"
+                        }-${index}`;
+
                       return (
                         <tr
                           key={rowKey}
@@ -344,12 +342,14 @@ const UserHistoryDashboard = () => {
                               {record?.tap_in_date || "—"}
                             </span>
                           </td>
+
                           {/* TAP IN */}
                           <td className="px-6 py-5">
                             <span className="rounded-xl bg-[#eaf7ef] px-3 py-2 text-sm font-medium text-[#43865c]">
                               {record?.tap_in_time || "—"}
                             </span>
                           </td>
+
                           {/* TAP OUT */}
                           <td className="px-6 py-5">
                             <span className="rounded-xl bg-[#fff1ef] px-3 py-2 text-sm font-medium text-[#b76b61]">
@@ -368,7 +368,6 @@ const UserHistoryDashboard = () => {
           <LeaveSection />
 
           {/* ================= FOOTER ================= */}
-
           <div className="mt-6 flex flex-col items-center justify-between gap-2 text-xs text-[#aaa39d] sm:flex-row">
             <p>HR Portal · People management</p>
 

@@ -1,18 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiClient, { BACKEND_URL } from "../api/apiClient";
 
 const Profile = () => {
   const navigate = useNavigate();
+
   const storedUser = localStorage.getItem("user");
   const initialUser = storedUser ? JSON.parse(storedUser) : null;
+
   const fileInputRef = useRef(null);
+
   const [user, setUser] = useState(initialUser);
+
   const [profilePic, setProfilePic] = useState(
     initialUser?.profile_image
-      ? `http://localhost:3000${initialUser.profile_image}`
-      : null,
+      ? `${BACKEND_URL}${initialUser.profile_image}`
+      : null
   );
+
+  // =====================================================
+  // FETCH CURRENT USER
+  // =====================================================
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -21,25 +29,27 @@ const Profile = () => {
 
         if (!token) return;
 
-        const response = await axios.get("http://localhost:3000/api/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await apiClient.get("/auth/me");
+
         console.log("CURRENT USER:", response.data);
+
         const currentUser = response.data.user || response.data;
+
         setUser(currentUser);
+
         localStorage.setItem("user", JSON.stringify(currentUser));
 
         if (currentUser.profile_image) {
-          setProfilePic(`http://localhost:3000${currentUser.profile_image}`);
+          setProfilePic(
+            `${BACKEND_URL}${currentUser.profile_image}`
+          );
         } else {
           setProfilePic(null);
         }
       } catch (error) {
         console.error(
           "Failed to fetch current user:",
-          error.response?.data || error.message,
+          error.response?.data || error.message
         );
       }
     };
@@ -47,9 +57,17 @@ const Profile = () => {
     fetchCurrentUser();
   }, []);
 
+  // =====================================================
+  // PROFILE IMAGE CLICK
+  // =====================================================
+
   const handleProfileClick = () => {
     fileInputRef.current.click();
   };
+
+  // =====================================================
+  // PROFILE IMAGE CHANGE
+  // =====================================================
 
   const handleProfileChange = async (e) => {
     const file = e.target.files[0];
@@ -70,38 +88,61 @@ const Profile = () => {
 
     // Show immediately
     const previewUrl = URL.createObjectURL(file);
+
     setProfilePic(previewUrl);
 
     try {
       const formData = new FormData();
+
       formData.append("profilePic", file);
+
       const token = localStorage.getItem("token");
-      const response = await axios.put(
-        "http://localhost:3000/api/users/profile-picture",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
+
+      if (!token) {
+        alert("Please login again.");
+        return;
+      }
+
+      const response = await apiClient.put(
+        "/users/profile-picture",
+        formData
       );
 
       console.log(response.data);
+
       alert("Profile picture updated successfully!");
-      const imageUrl = `http://localhost:3000${response.data.profile_image}`;
+
+      const imageUrl = `${BACKEND_URL}${response.data.profile_image}`;
+
       setProfilePic(imageUrl);
+
       const updatedUser = {
         ...user,
         profile_image: response.data.profile_image,
       };
+
       setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(updatedUser)
+      );
     } catch (error) {
-      console.error("Upload error:", error);
+      console.error(
+        "Upload error:",
+        error.response?.data || error.message
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to upload profile picture"
+      );
     }
   };
 
+  // =====================================================
   // LOGOUT
+  // =====================================================
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -109,23 +150,23 @@ const Profile = () => {
 
     navigate("/login", { replace: true });
   };
+
+  // =====================================================
   // ROLE
+  // =====================================================
 
   const getRoleName = (role) => {
     if (Number(role) === 1) return "HR";
+
     return "User";
   };
 
   return (
-    <div className="min-h-screen  bg-[#faf8f5] text-[#292524]">
+    <div className="min-h-screen bg-[#faf8f5] text-[#292524]">
       {/* MAIN CONTENT */}
-
-      <main className=" ">
+      <main>
         <div className="px-5 py-6 sm:px-8 lg:px-10 lg:py-8">
-
-
           {/* PAGE HEADER */}
-
           <div className="mb-8">
             <p className="mb-2 text-sm font-medium text-[#b08a68]">
               Your space ✨
@@ -141,14 +182,15 @@ const Profile = () => {
           </div>
 
           {/* PROFILE HERO */}
-
           <div className="mb-6 overflow-hidden rounded-[28px] border border-[#eee7df] bg-white shadow-[0_10px_40px_rgba(80,60,40,0.05)]">
             {/* TOP DECORATION */}
-
             <div className="relative h-32 overflow-hidden bg-[#f3e8f8]">
               <div className="absolute -right-8 -top-16 h-48 w-48 rounded-full bg-[#ead5f2] opacity-70" />
+
               <div className="absolute right-32 top-10 h-24 w-24 rounded-full bg-[#f5dfe5] opacity-70" />
+
               <div className="absolute -bottom-10 left-20 h-32 w-32 rounded-full bg-[#e5f0e9] opacity-70" />
+
               <div className="absolute left-8 top-7 text-2xl text-[#b18cc3]">
                 ✦
               </div>
@@ -159,15 +201,13 @@ const Profile = () => {
             </div>
 
             {/* PROFILE CONTENT */}
-
             <div className="relative px-6 pb-7 sm:px-8">
               {/* AVATAR + STATUS */}
-
               <div className="-mt-12 mb-5 flex items-end justify-between">
                 <div className="flex h-24 w-24 items-center justify-center rounded-[28px] border-4 border-white bg-[#e8ddf3] text-2xl font-bold text-[#80639b] shadow-md">
                   <div
                     onClick={handleProfileClick}
-                    className="relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-[28px] border-white bg-[#e8ddf3] text-2xl font-bold text-[#80639b] shadow-md transition hover:scale-105"
+                    className="relative flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-[28px] bg-[#e8ddf3] text-2xl font-bold text-[#80639b] shadow-md transition hover:scale-105"
                   >
                     {profilePic ? (
                       <img
@@ -177,13 +217,17 @@ const Profile = () => {
                       />
                     ) : (
                       <span className="text-3xl font-bold text-purple-700">
-                        {user?.fullname?.charAt(0)?.toUpperCase() || "D"}
+                        {user?.fullname
+                          ?.charAt(0)
+                          ?.toUpperCase() || "D"}
                       </span>
                     )}
 
                     {/* Hover camera icon */}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition hover:opacity-100">
-                      <span className="text-2xl text-white">📷</span>
+                      <span className="text-2xl text-white">
+                        📷
+                      </span>
                     </div>
                   </div>
 
@@ -197,7 +241,6 @@ const Profile = () => {
                 </div>
 
                 {/* STATUS */}
-
                 <span className="mb-2 inline-flex items-center gap-2 rounded-full bg-[#e8f6ed] px-4 py-2 text-xs font-semibold text-[#4d8a68]">
                   <span className="h-2 w-2 rounded-full bg-[#62ad7e]" />
                   Active account
@@ -205,7 +248,6 @@ const Profile = () => {
               </div>
 
               {/* NAME */}
-
               <div>
                 <h3 className="text-2xl font-bold text-[#292524]">
                   {user?.fullname || "N/A"}
@@ -219,7 +261,6 @@ const Profile = () => {
           </div>
 
           {/* ACCOUNT INFORMATION */}
-
           <div className="rounded-[28px] border border-[#eee7df] bg-white shadow-[0_10px_40px_rgba(80,60,40,0.05)]">
             {/* CARD HEADER */}
             <div className="border-b border-[#f0ebe5] px-6 py-6 sm:px-8">
@@ -241,10 +282,8 @@ const Profile = () => {
             </div>
 
             {/* USER DETAILS */}
-
             <div className="grid gap-x-10 gap-y-1 px-6 py-3 sm:grid-cols-2 sm:px-8">
               {/* USER ID */}
-
               <div className="border-b border-[#f3eee9] py-6">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#aaa39d]">
                   User ID
@@ -256,7 +295,6 @@ const Profile = () => {
               </div>
 
               {/* FULL NAME */}
-
               <div className="border-b border-[#f3eee9] py-6">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#aaa39d]">
                   Full Name
@@ -268,7 +306,6 @@ const Profile = () => {
               </div>
 
               {/* EMAIL */}
-
               <div className="border-b border-[#f3eee9] py-6">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#aaa39d]">
                   Email Address
@@ -280,7 +317,6 @@ const Profile = () => {
               </div>
 
               {/* ROLE */}
-
               <div className="border-b border-[#f3eee9] py-6">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#aaa39d]">
                   Role
@@ -292,7 +328,6 @@ const Profile = () => {
               </div>
 
               {/* ACCOUNT STATUS */}
-
               <div className="py-6 sm:col-span-2">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#aaa39d]">
                   Account Status
@@ -306,12 +341,9 @@ const Profile = () => {
             </div>
           </div>
 
-          {/*
-              FOOTER*/}
-
+          {/* FOOTER */}
           <div className="mt-6 flex flex-col items-center justify-between gap-2 text-xs text-[#aaa39d] sm:flex-row">
             <p>HR Portal · People management</p>
-
             <p>Made with care ✦</p>
           </div>
         </div>
