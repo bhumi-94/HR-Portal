@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import apiClient, { BACKEND_URL } from "../api/apiClient";
+import apiClient, { BACKEND_URL } from "../../api/apiClient";
 
 const Profile = () => {
   const navigate = useNavigate();
