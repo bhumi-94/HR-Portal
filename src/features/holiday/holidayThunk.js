@@ -1,28 +1,31 @@
-import { createAsyncThunk } from "@reduxjs/toolkit"; 
-import axios from "axios"
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = "http://localhost:3000/api/holidays"
+import apiClient from "../../api/apiClient";
 
-// Get All Holidays 
+// =====================================================
+// GET ALL HOLIDAYS
+// =====================================================
 
 export const getHolidays = createAsyncThunk(
-    "holiday/getHolidays" ,
+  "holiday/getHolidays",
 
-    async(_ , { rejectWithValue }) => {
-        try{
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await apiClient.get(
+        "/holidays/get-holidays"
+      );
 
-            const response =  await axios.get(
-                `${API_URL}/get-holidays`
-            )
+      return response.data.holidays;
+    } catch (error) {
+      console.log(
+        "GET HOLIDAYS ERROR:",
+        error.response?.data || error.message
+      );
 
-            return response.data.holidays;
-        }catch(error){
-            console.log(error)
-
-            return rejectWithValue(
-                error.response?.data?.message || "Failed to Fetch Holidays"
-            )
-
-        }
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to Fetch Holidays"
+      );
     }
-)
+  }
+);

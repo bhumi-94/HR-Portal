@@ -1,4 +1,5 @@
-import axios from "axios";
+import apiClient from "../../api/apiClient";
+
 import NotificationBell from "../common/NotificationBell";
 
 const Header = () => {
@@ -6,19 +7,12 @@ const Header = () => {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.patch(
-        `http://localhost:3000/api/notifications/${notificationId}/read`,
+      if (!token) {
+        console.error("Authentication token not found");
+        return;
+      }
 
-        {},
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-
-          withCredentials: true,
-        },
-      );
+      await apiClient.patch(`/notifications/${notificationId}/read`, {});
 
       setNotifications((prev) =>
         prev.map((notification) =>
@@ -38,10 +32,6 @@ const Header = () => {
     }
   };
 
-  // const unreadCount = notifications.filter(
-  //   (notification) => Number(notification.is_read) === 0,
-  // ).length;
-
   return (
     <header
       className="
@@ -51,14 +41,13 @@ const Header = () => {
         right-0
         z-50
         h-16
-       bg-[#fffbf4]
+        bg-[#fffbf4]
         border-b
         border-[#eee]
         lg:left-64
       "
     >
       <div className="h-full px-4 sm:px-6 flex items-center justify-between">
-        {/* Mobile menu button */}
         <button
           className="lg:hidden text-gray-700"
           onClick={() => {
@@ -67,14 +56,14 @@ const Header = () => {
         >
           ☰
         </button>
-        {/* Header title */}
+
         <div className="hidden sm:block">
           <p className="text-sm text-gray-500"></p>
-          
         </div>
-          <div className="ml-auto">
-            <NotificationBell />
-          </div>
+
+        <div className="ml-auto">
+          <NotificationBell />
+        </div>
       </div>
     </header>
   );

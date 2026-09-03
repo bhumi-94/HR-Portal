@@ -13,10 +13,6 @@ const holidaySlice = createSlice({
 
     initialState ,
     reducers : {
-        // clearHolidaysMessage : (state) => {
-        //     state.message = null ,
-        //     state.error = null;
-        // }
     },
 
 
