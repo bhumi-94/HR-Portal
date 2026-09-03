@@ -16,6 +16,7 @@ import EmployeeHistory from "../pages/dashboard/EmployeeHistory";
 import EmployeeLeave from "../pages/dashboard/EmployeeLeave";
 import UserLeaveHistory from "../pages/dashboard/UserLeaveHistory";
 import HolidaysCalendar from "../pages/dashboard/HolidaysCalendar";
+import Feedback from "../pages/dashboard/Feedback";
 
 const AppRoutes = () => {
   const token = localStorage.getItem("token");
@@ -91,6 +92,7 @@ const AppRoutes = () => {
         {/* <Route path="/hr/employee-leave" element={<EmployeeLeave />} /> */}
         <Route path="/user-leave-history" element={<UserLeaveHistory/>}/>
         <Route path="/holiday-calendar" element={<HolidaysCalendar/>}/>
+        <Route path="/feedback" element={<Feedback/>}/>
 
       </Route>
 

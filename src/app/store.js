@@ -9,6 +9,7 @@ import hrLeaveReducer from "../features/leave/hrLeaveSlice"
 import holidayReducer from "../features/holiday/holidaySlice"
 import notificationReducer
   from "../features/notifications/notificationSlice";
+import feedbackReducer from "../features/feedback/feedbackSlice"
 
 
 const store = configureStore({
@@ -21,6 +22,7 @@ const store = configureStore({
     hrLeave: hrLeaveReducer,
     holiday : holidayReducer,
     notification: notificationReducer,
+    feedback : feedbackReducer,
 
   },
 });

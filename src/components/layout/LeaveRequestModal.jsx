@@ -12,9 +12,7 @@ const LeaveRequestModal = ({ isOpen, onClose }) => {
 
   const dispatch = useDispatch();
 
-  const { submitting } = useSelector(
-    (state) => state.leave,
-  );
+  const { submitting } = useSelector((state) => state.leave);
 
   const [duration, setDuration] = useState(0);
 
@@ -382,20 +380,20 @@ const LeaveRequestModal = ({ isOpen, onClose }) => {
               type="submit"
               disabled={submitting}
               className="
-    rounded-2xl
-    bg-[#8b5aa8]
-    px-6
-    py-3
-    text-sm
-    font-semibold
-    text-white
-    shadow-[0_8px_20px_rgba(139,90,168,0.22)]
-    transition
-    hover:bg-[#764994]
-    active:scale-[0.98]
-    disabled:cursor-not-allowed
-    disabled:opacity-60
-  "
+                rounded-2xl
+                bg-[#8b5aa8]
+                px-6
+                py-3
+                text-sm
+                font-semibold
+                text-white
+                shadow-[0_8px_20px_rgba(139,90,168,0.22)]
+                transition
+                hover:bg-[#764994]
+                active:scale-[0.98]
+                disabled:cursor-not-allowed
+                disabled:opacity-60
+              "
             >
               {submitting ? "Submitting..." : "Submit Request"}
             </button>

@@ -463,10 +463,6 @@ const EmployeeLeave = () => {
               )}
             </div>
 
-            {/* =========================================
-                DESKTOP TABLE
-            ========================================= */}
-
             <div className="hidden overflow-x-auto md:block">
               <table className="min-w-[1100px] w-full border-collapse">
                 <thead>
