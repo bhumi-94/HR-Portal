@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../components/common/Button";
 import working_girl from "../../assets/working_girl.svg";
 import { registerUser } from "../../features/auth/authThunk";
-import { signupSchema } from "../../validation/signupSchema";
+import { signupSchema } from "../../Validation/SignUpSchema"
 
 const Register = () => {
   const navigate = useNavigate();
