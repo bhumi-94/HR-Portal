@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
-import Email from "../../assets/Email.Svg";
+import Email from "../../assets/Email.svg";
 import { useDispatch } from "react-redux";
 import { forgotPassword } from "../../features/auth/authThunk";
 
