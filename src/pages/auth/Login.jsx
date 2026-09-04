@@ -1,6 +1,6 @@
 import Button from "../../components/common/Button";
 import working_boy from "../../assets/working_boy.svg";
-import Google_icon from "../../assets/Google_icon.Svg";
+import Google_icon from "../../assets/Google_icon.svg";
 import { useNavigate, Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
