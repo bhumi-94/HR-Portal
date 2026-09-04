@@ -42,4 +42,5 @@ A full-stack HR Portal designed to manage employees, attendance, leave requests,
 The frontend is deployed using **Vercel**.
 
 **Live Application:**  
-https://your-vercel-link.vercel.app
+https://hr-portal-pi-ten.vercel.app/login
+
