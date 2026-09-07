@@ -49,7 +49,6 @@ const Register = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Remove error while typing
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
