@@ -3,9 +3,6 @@
 *{
     font-family: "Outfit", sans-serif;
 }
-/* ============================= */
-/* TABLE CONTAINER */
-/* ============================= */
 
 .table-container {
   width: 100%;
@@ -19,10 +16,6 @@
   scrollbar-width: thin;
 }
 
-/* ============================= */
-/* TABLE */
-/* ============================= */
-
 .users-table {
   width: max-content;
   min-width: 1600px;
@@ -32,10 +25,6 @@
 
   font-size: 14px;
 }
-
-/* ============================= */
-/* HEADER */
-/* ============================= */
 
 .users-table thead th {
   position: sticky;
@@ -62,9 +51,6 @@
   border-bottom: 1px solid #eee7e2;
 }
 
-/* ============================= */
-/* TABLE BODY */
-/* ============================= */
 
 .users-table tbody td {
   padding: 22px 24px;
@@ -78,9 +64,6 @@
   vertical-align: middle;
 }
 
-/* ============================= */
-/* ROW */
-/* ============================= */
 
 .users-table tbody tr {
   background: white;
@@ -92,18 +75,10 @@
   background: #fcf8ff;
 }
 
-/* ============================= */
-/* EMPLOYEE ID */
-/* ============================= */
-
 .employee-id {
   font-weight: 600;
   color: #6f55a5;
 }
-
-/* ============================= */
-/* PERSON */
-/* ============================= */
 
 .person-info {
   display: flex;
@@ -152,11 +127,6 @@
 
   color: #a29a94;
 }
-
-/* ============================= */
-/* ADDRESS */
-/* ============================= */
-
 .address-cell {
   display: block;
 
@@ -166,10 +136,6 @@
 
   text-overflow: ellipsis;
 }
-
-/* ============================= */
-/* ROLE */
-/* ============================= */
 
 .role-badge {
   display: inline-flex;
@@ -199,10 +165,6 @@
   color: #b4772b;
 }
 
-/* ============================= */
-/* STATUS */
-/* ============================= */
-
 .status-badge {
   display: inline-flex;
 
@@ -231,9 +193,6 @@
   color: #c56a68;
 }
 
-/* ============================= */
-/* BUTTONS */
-/* ============================= */
 
 .disable-btn,
 .enable-btn {
@@ -264,19 +223,11 @@
   background: #d5efdf;
 }
 
-/* ============================= */
-/* EMPTY STATE */
-/* ============================= */
-
 .no-users {
   text-align: center !important;
   padding: 50px !important;
   color: #aaa29c !important;
 }
-
-/* ============================= */
-/* SCROLLBAR */
-/* ============================= */
 
 .table-container::-webkit-scrollbar {
   height: 9px;
