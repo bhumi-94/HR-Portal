@@ -22,26 +22,85 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-
   async (formData, { dispatch, rejectWithValue }) => {
     try {
-      const response = await apiClient.post("/auth/login", formData);
+      const response = await apiClient.post("/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
 
-      dispatch(setUser(response.data));
+      const result = response.data;
 
-      const token = response.data.token;
+      console.log("LOGIN RESPONSE:", result);
 
-      localStorage.setItem("token", token);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user");
 
-      return response.data;
+      if (formData.rememberMe === true) {
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("user", JSON.stringify(result.user));
+      }
+
+      else {
+        sessionStorage.setItem("token", result.token);
+        sessionStorage.setItem("user", JSON.stringify(result.user));
+      }
+
+      dispatch(setUser(result));
+
+      return result;
     } catch (error) {
-      console.error("LOGIN ERROR:", error.response?.data);
+      console.error("LOGIN ERROR:", error.response?.data || error.message);
 
-      return rejectWithValue(error.response?.data?.message || "Login failed");
+      return rejectWithValue(
+        error.response?.data?.message ||
+          error.response?.data?.error ||
+          "Login failed",
+      );
     }
   },
 );
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async ({ credential, rememberMe }, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await api.post("/auth/google", {
+        credential,
+      });
 
+      const { token, user } = response.data;
+
+      if (rememberMe) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+      } else {
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("user", JSON.stringify(user));
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+
+      dispatch(
+        setUser({
+          token,
+          user,
+        }),
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Google login failed",
+      );
+    }
+  },
+);
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
 

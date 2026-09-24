@@ -1,28 +1,33 @@
 import Button from "../../components/common/Button";
 import working_boy from "../../assets/working_boy.svg";
-import Google_icon from "../../assets/Google_icon.svg";
+
 import { useNavigate, Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../features/auth/authThunk";
+
+import { loginUser, googleLogin } from "../../features/auth/authThunk";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Google button container
+  const googleButtonRef = useRef(null);
+  const googleInitializedRef = useRef(false);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    RememberMe: false,
+    rememberMe: false,
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -30,11 +35,30 @@ const Login = () => {
 
     try {
       const result = await dispatch(loginUser(formData)).unwrap();
+      if (Number(result.user.role) === 1) {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/user-dashboard", { replace: true });
+      }
+    } catch (error) {
+      console.error("Google login failed:", error);
+      alert(error || "Google login failed");
+    }
+  };
 
-      // Save token in localstorage
+  const handleGoogleLogin = async (response) => {
+    try {
+      if (!response?.credential) {
+        throw new Error("Google authentication failed");
+      }
+
+      const result = await dispatch(
+        googleLogin({
+          credential: response.credential,
+          rememberMe: formData.rememberMe,
+        }),
+      );
       localStorage.setItem("token", result.token);
-
-      // Save user in local storage
       localStorage.setItem("user", JSON.stringify(result.user));
 
       if (Number(result.user.role) === 1) {
@@ -43,9 +67,84 @@ const Login = () => {
         navigate("/user-dashboard", { replace: true });
       }
     } catch (error) {
-      alert(error || "Login failed");
+      console.error("Google login failed:", error);
+
+      alert(error || "Google login failed. Please try again.");
     }
   };
+
+  useEffect(() => {
+    const initializeGoogle = () => {
+      if (
+        googleInitializedRef.current ||
+        !window.google ||
+        !window.google.accounts ||
+        !googleButtonRef.current
+      ) {
+        return;
+      }
+
+      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+      if (!clientId) {
+        console.error("VITE_GOOGLE_CLIENT_ID is missing");
+        return;
+      }
+
+      googleInitializedRef.current = true;
+
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleGoogleLogin,
+      });
+
+      googleButtonRef.current.innerHTML = "";
+
+      window.google.accounts.id.renderButton(googleButtonRef.current, {
+        theme: "outline",
+        size: "large",
+        text: "continue_with",
+        shape: "rectangular",
+        width: 350,
+      });
+    };
+
+    if (window.google && window.google.accounts) {
+      initializeGoogle();
+      return;
+    }
+
+    const existingScript = document.querySelector(
+      'script[src="https://accounts.google.com/gsi/client"]',
+    );
+
+    if (existingScript) {
+      existingScript.addEventListener("load", initializeGoogle);
+
+      return () => {
+        existingScript.removeEventListener("load", initializeGoogle);
+      };
+    }
+
+    const script = document.createElement("script");
+
+    script.src = "https://accounts.google.com/gsi/client";
+
+    script.async = true;
+    script.defer = true;
+
+    script.onload = initializeGoogle;
+
+    script.onerror = () => {
+      console.error("Failed to load Google Identity Services");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      script.onload = null;
+    };
+  }, []);
 
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-blue-50 p-4 sm:p-6">
@@ -93,11 +192,12 @@ const Login = () => {
                 <input
                   type="email"
                   name="email"
+                  id="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter Your Email"
                   required
-                  className="w-full rounded-md border border-gray-400 px-3 py-2 text-sm text-gray-700 outline-none"
+                  className="w-full rounded-md border border-gray-400 px-3 py-2 text-sm text-gray-700 outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -113,11 +213,12 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
+                  id="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Enter Your Password"
                   required
-                  className="w-full rounded-md border border-gray-400 px-3 py-2 text-sm text-gray-700 outline-none"
+                  className="w-full rounded-md border border-gray-400 px-3 py-2 text-sm text-gray-700 outline-none focus:border-blue-500"
                 />
               </div>
 
@@ -159,22 +260,16 @@ const Login = () => {
               {/* Divider */}
               <div className="flex items-center gap-3 py-1">
                 <hr className="flex-1 border-gray-300" />
+
                 <span className="text-sm text-gray-500">or</span>
+
                 <hr className="flex-1 border-gray-300" />
               </div>
 
-              {/* Google Button */}
-              <Button
-                type="button"
-                disabled={false}
-                className="w-full rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50 sm:text-base"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <img src={Google_icon} alt="Google" className="h-5 w-5" />
-
-                  <span>Sign in with Google</span>
-                </span>
-              </Button>
+              {/* Google Login */}
+              <div className="flex w-full justify-center">
+                <div ref={googleButtonRef} className="min-h-[44px] "></div>
+              </div>
 
               {/* Register */}
               <p className="pt-2 text-center text-xs text-gray-600 sm:text-sm">
