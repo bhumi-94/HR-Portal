@@ -199,7 +199,7 @@ const Dashboard = () => {
                             {user.profile_image ? (
                               <>
                                 <img
-                                  src={`http://localhost:3000${user.profile_image}`}
+                                src={`https://hr-portal-backend-1-wm96.onrender.com${user.profile_image}`}
                                   alt={user.fullname}
                                   className="profile-avatar-image"
                                 />

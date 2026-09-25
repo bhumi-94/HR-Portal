@@ -395,7 +395,7 @@ const EmployeeHistory = () => {
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#e8d5f5] text-sm font-bold text-[#8b5aa8]">
                               {employee.profile_image ? (
                                 <img
-                                  src={`http://localhost:3000${employee.profile_image}`}
+                                src={`https://hr-portal-backend-1-wm96.onrender.com${employee.profile_image}`}
                                   alt={employee.fullname}
                                   className="h-full w-full object-cover"
                                 />
