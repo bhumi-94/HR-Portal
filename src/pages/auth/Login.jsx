@@ -11,10 +11,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Google button container
   const googleButtonRef = useRef(null);
   const googleInitializedRef = useRef(false);
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,6 +33,23 @@ const Login = () => {
 
     try {
       const result = await dispatch(loginUser(formData)).unwrap();
+
+      if (!result) {
+        throw new Error("No response received from login");
+      }
+
+      if (!result.token) {
+        throw new Error("Token missing from login response");
+      }
+
+      if (!result.user) {
+        console.error("User missing from login response:", result);
+        throw new Error("Login response does not contain user information");
+      }
+
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("user", JSON.stringify(result.user));
+
       if (Number(result.user.role) === 1) {
         navigate("/dashboard", { replace: true });
       } else {
@@ -48,20 +63,38 @@ const Login = () => {
 
   const handleGoogleLogin = async (response) => {
     try {
-      if (!response?.credential) {
-        throw new Error("Google authentication failed");
-      }
-
       const result = await dispatch(
         googleLogin({
           credential: response.credential,
           rememberMe: formData.rememberMe,
         }),
-      );
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
+      ).unwrap();
 
-      if (Number(result.user.role) === 1) {
+      if (!result?.token) {
+        throw new Error("Token was not returned by server");
+      }
+
+      if (!result?.user) {
+        throw new Error("User was not returned by server");
+      }
+
+      if (formData.rememberMe) {
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("user", JSON.stringify(result.user));
+
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+      } else {
+        sessionStorage.setItem("token", result.token);
+        sessionStorage.setItem("user", JSON.stringify(result.user));
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+
+      const role = Number(result.user?.role);
+
+      if (role === 1) {
         navigate("/dashboard", { replace: true });
       } else {
         navigate("/user-dashboard", { replace: true });
@@ -69,10 +102,9 @@ const Login = () => {
     } catch (error) {
       console.error("Google login failed:", error);
 
-      alert(error || "Google login failed. Please try again.");
+      alert(error?.message || error || "Google login failed");
     }
   };
-
   useEffect(() => {
     const initializeGoogle = () => {
       if (
@@ -129,10 +161,8 @@ const Login = () => {
     const script = document.createElement("script");
 
     script.src = "https://accounts.google.com/gsi/client";
-
     script.async = true;
     script.defer = true;
-
     script.onload = initializeGoogle;
 
     script.onerror = () => {
@@ -145,7 +175,6 @@ const Login = () => {
       script.onload = null;
     };
   }, []);
-
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-blue-50 p-4 sm:p-6">
       {/* Main Card */}

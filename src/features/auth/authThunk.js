@@ -41,9 +41,7 @@ export const loginUser = createAsyncThunk(
       if (formData.rememberMe === true) {
         localStorage.setItem("token", result.token);
         localStorage.setItem("user", JSON.stringify(result.user));
-      }
-
-      else {
+      } else {
         sessionStorage.setItem("token", result.token);
         sessionStorage.setItem("user", JSON.stringify(result.user));
       }
@@ -64,28 +62,46 @@ export const loginUser = createAsyncThunk(
 );
 export const googleLogin = createAsyncThunk(
   "auth/googleLogin",
+
   async ({ credential, rememberMe }, { dispatch, rejectWithValue }) => {
     try {
-      const response = await api.post("/auth/google", {
+      const response = await apiClient.post("/auth/google", {
         credential,
       });
 
-      const { token, user } = response.data;
+      console.log("GOOGLE API RESPONSE:", response.data);
 
-      if (rememberMe) {
+      const result = response.data;
+
+      if (!result?.token) {
+        console.error("SERVER RESPONSE DOES NOT CONTAIN TOKEN:", result);
+
+        return rejectWithValue("Token was not returned by server");
+      }
+
+      const { token, user } = result;
+
+      if (!user) {
+        return rejectWithValue("User data was not returned by server");
+      }
+
+      if (rememberMe === true) {
         localStorage.setItem("token", token);
+
         localStorage.setItem("user", JSON.stringify(user));
 
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("user");
       } else {
         sessionStorage.setItem("token", token);
+
         sessionStorage.setItem("user", JSON.stringify(user));
 
         localStorage.removeItem("token");
         localStorage.removeItem("user");
       }
 
+      // Update Redux
       dispatch(
         setUser({
           token,
@@ -93,10 +109,15 @@ export const googleLogin = createAsyncThunk(
         }),
       );
 
-      return response.data;
+      return {
+        token,
+        user,
+      };
     } catch (error) {
+      console.error("GOOGLE API ERROR:", error.response?.data || error.message);
+
       return rejectWithValue(
-        error.response?.data?.message || "Google login failed",
+        error.response?.data?.message || error.message || "Google login failed",
       );
     }
   },

@@ -6,7 +6,6 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
 
 import PrivateRoute from "../routes/PrivateRoute";
-
 import MainLayout from "../layouts/MainLayout";
 
 import Dashboard from "../pages/dashboard/Dashboard";
@@ -19,7 +18,28 @@ import HolidaysCalendar from "../pages/dashboard/HolidaysCalendar";
 import Feedback from "../pages/dashboard/Feedback";
 
 const AppRoutes = () => {
-  const token = localStorage.getItem("token");
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  const storedUser =
+    localStorage.getItem("user") || sessionStorage.getItem("user");
+
+  let user = null;
+
+  try {
+    user = storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+    console.error("Invalid stored user:", error);
+
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+
+    user = null;
+  }
+
+  const role = Number(user?.role);
+
+  const dashboardPath = role === 1 ? "/dashboard" : "/user-dashboard";
 
   return (
     <Routes>
@@ -28,15 +48,8 @@ const AppRoutes = () => {
       <Route
         path="/"
         element={
-          token ? (
-            <Navigate
-              to={
-                Number(JSON.parse(localStorage.getItem("user"))?.role) === 1
-                  ? "/dashboard"
-                  : "/user-dashboard"
-              }
-              replace
-            />
+          token && user ? (
+            <Navigate to={dashboardPath} replace />
           ) : (
             <Navigate to="/login" replace />
           )
@@ -46,18 +59,7 @@ const AppRoutes = () => {
       <Route
         path="/login"
         element={
-          token ? (
-            <Navigate
-              to={
-                Number(JSON.parse(localStorage.getItem("user"))?.role) === 1
-                  ? "/dashboard"
-                  : "/user-dashboard"
-              }
-              replace
-            />
-          ) : (
-            <Login />
-          )
+          token && user ? <Navigate to={dashboardPath} replace /> : <Login />
         }
       />
 
@@ -69,7 +71,7 @@ const AppRoutes = () => {
 
       <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-      {/* ================= PRIVATE LAYOUT ================= */}
+      {/* ================= PRIVATE ROUTES ================= */}
 
       <Route
         element={
@@ -78,8 +80,6 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       >
-        {/* These are CHILDREN of MainLayout */}
-
         <Route path="/dashboard" element={<Dashboard />} />
 
         <Route path="/profile" element={<Profile />} />
@@ -89,11 +89,12 @@ const AppRoutes = () => {
         <Route path="/employee-history" element={<EmployeeHistory />} />
 
         <Route path="/employee-leave" element={<EmployeeLeave />} />
-        {/* <Route path="/hr/employee-leave" element={<EmployeeLeave />} /> */}
-        <Route path="/user-leave-history" element={<UserLeaveHistory/>}/>
-        <Route path="/holiday-calendar" element={<HolidaysCalendar/>}/>
-        <Route path="/feedback" element={<Feedback/>}/>
 
+        <Route path="/user-leave-history" element={<UserLeaveHistory />} />
+
+        <Route path="/holiday-calendar" element={<HolidaysCalendar />} />
+
+        <Route path="/feedback" element={<Feedback />} />
       </Route>
 
       {/* ================= 404 ================= */}
