@@ -357,7 +357,7 @@ const EmployeeLeave = () => {
                             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#e8d5f5] text-sm font-bold text-[#8b5aa8]">
                               {request.profile_image ? (
                                 <img
-                                  src={`http://localhost:3000${request.profile_image}`}
+                                src={`https://hr-portal-backend-1-wm96.onrender.com${request.profile_image}`}
                                   alt={employeeName}
                                   className="h-full w-full object-cover"
                                 />
@@ -532,7 +532,7 @@ const EmployeeLeave = () => {
                               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#e8d5f5] text-xs font-bold text-[#8b5aa8]">
                                 {request.profile_image ? (
                                   <img
-                                    src={`http://localhost:3000${request.profile_image}`}
+                                  src={`https://hr-portal-backend-1-wm96.onrender.com${request.profile_image}`}
                                     alt={employeeName}
                                     className="h-full w-full object-cover"
                                   />
