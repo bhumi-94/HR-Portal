@@ -5,7 +5,9 @@ import NotificationBell from "../common/NotificationBell";
 const Header = () => {
   const markNotificationAsRead = async (notificationId) => {
     try {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token") || sessionStorage.getItem("token");
 
       if (!token) {
         console.error("Authentication token not found");
