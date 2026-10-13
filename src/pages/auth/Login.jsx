@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { loginUser, googleLogin } from "../../features/auth/authThunk";
+import { setUser } from "../../features/auth/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -91,7 +92,12 @@ const Login = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
       }
-
+      dispatch(
+        setUser({
+          token: result.token,
+          user: result.user,
+        }),
+      );
       const role = Number(result.user?.role);
 
       if (role === 1) {
