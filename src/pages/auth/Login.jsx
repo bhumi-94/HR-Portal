@@ -66,9 +66,17 @@ const Login = () => {
   const handleGoogleLogin = async (response) => {
     if (googleLoginInProgressRef.current) return;
 
+    if (!response?.credential) {
+      console.error("Google did not return a credential.");
+      alert("Google authentication failed. Please try again.");
+      return;
+    }
+
     googleLoginInProgressRef.current = true;
 
     try {
+      console.log("Google credential received. Starting login...");
+
       const result = await dispatch(
         googleLogin({
           credential: response.credential,
@@ -76,79 +84,42 @@ const Login = () => {
         }),
       ).unwrap();
 
+      console.log("Google login thunk result:", {
+        success: true,
+        hasToken: Boolean(result?.token),
+        hasUser: Boolean(result?.user),
+        role: result?.user?.role,
+      });
+
       if (!result?.token || !result?.user) {
-        throw new Error("Invalid Google login response");
+        throw new Error("Login response is missing token or user data.");
       }
 
       const role = Number(result.user.role);
 
       if (role !== 0 && role !== 1) {
-        throw new Error("Invalid user role returned by server");
+        throw new Error("Invalid user role returned by the server.");
       }
 
-      navigate(role === 1 ? "/dashboard" : "/user-dashboard", {
-        replace: true,
-      });
+      const destination = role === 1 ? "/dashboard" : "/user-dashboard";
+
+      console.log("Navigating to:", destination);
+
+      navigate(destination, { replace: true });
     } catch (error) {
-      console.error("Google login failed:", error);
-      alert(
+      console.error("Google login or redirect failed:", error);
+
+      const message =
         typeof error === "string"
           ? error
-          : error?.message || "Google login failed",
-      );
+          : error?.message || "Google login failed. Please try again.";
+
+      alert(message);
     } finally {
       googleLoginInProgressRef.current = false;
     }
   };
-  // const handleGoogleLogin = async (response) => {
-  //   try {
-  //     const result = await dispatch(
-  //       googleLogin({
-  //         credential: response.credential,
-  //         rememberMe: formData.rememberMe,
-  //       }),
-  //     ).unwrap();
 
-  //     if (!result?.token) {
-  //       throw new Error("Token was not returned by server");
-  //     }
-
-  //     if (!result?.user) {
-  //       throw new Error("User was not returned by server");
-  //     }
-
-  //     if (formData.rememberMe) {
-  //       localStorage.setItem("token", result.token);
-  //       localStorage.setItem("user", JSON.stringify(result.user));
-
-  //       sessionStorage.removeItem("token");
-  //       sessionStorage.removeItem("user");
-  //     } else {
-  //       sessionStorage.setItem("token", result.token);
-  //       sessionStorage.setItem("user", JSON.stringify(result.user));
-
-  //       localStorage.removeItem("token");
-  //       localStorage.removeItem("user");
-  //     }
-  //     dispatch(
-  //       setUser({
-  //         token: result.token,
-  //         user: result.user,
-  //       }),
-  //     );
-  //     const role = Number(result.user?.role);
-
-  //     if (role === 1) {
-  //       navigate("/dashboard", { replace: true });
-  //     } else {
-  //       navigate("/user-dashboard", { replace: true });
-  //     }
-  //   } catch (error) {
-  //     console.error("Google login failed:", error);
-
-  //     alert(error?.message || error || "Google login failed");
-  //   }
-  // };
   useEffect(() => {
     const initializeGoogle = () => {
       if (

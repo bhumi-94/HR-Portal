@@ -9,7 +9,17 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Get logged-in user
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const storedUser =
+    localStorage.getItem("user") || sessionStorage.getItem("user");
+
+  let user = null;
+
+  try {
+    user = storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+    console.error("Invalid sidebar user data:", error);
+  }
 
   const handleLogout = () => {
     dispatch(logout());
@@ -110,7 +120,6 @@ const Sidebar = () => {
             <span className="text-lg">🗲</span>
             Holidays
           </button>
-          
         </div>
       ) : (
         // EMPLOYEE SIDEBAR
