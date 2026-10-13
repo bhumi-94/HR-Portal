@@ -30,7 +30,7 @@ const UserHistoryDashboard = () => {
   } = useSelector((state) => state.attendance || {});
 
   // USER
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = JSON.parse((localStorage.getItem("user") || sessionStorage.getItem("user")) || "{}");
 
   const getRoleName = (role) => {
     if (Number(role) === 1) {
@@ -49,7 +49,7 @@ const UserHistoryDashboard = () => {
 
   // FETCH ATTENDANCE
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
     if (!token) {
       navigate("/login", {
@@ -64,7 +64,7 @@ const UserHistoryDashboard = () => {
 
   // TAP IN
   const handleTapIn = async () => {
-    const token = localStorage.getItem("token");
+    const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
     if (!token) {
       navigate("/login", {
@@ -83,7 +83,7 @@ const UserHistoryDashboard = () => {
 
   // TAP OUT
   const handleTapOut = async () => {
-    const token = localStorage.getItem("token");
+    const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
     if (!token) {
       navigate("/login", {

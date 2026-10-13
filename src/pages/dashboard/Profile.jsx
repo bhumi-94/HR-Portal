@@ -5,7 +5,7 @@ import apiClient, { BACKEND_URL } from "../../api/apiClient";
 const Profile = () => {
   const navigate = useNavigate();
 
-  const storedUser = localStorage.getItem("user");
+  const storedUser = (localStorage.getItem("user") || sessionStorage.getItem("user"));
   const initialUser = storedUser ? JSON.parse(storedUser) : null;
 
   const fileInputRef = useRef(null);
@@ -25,7 +25,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
         if (!token) return;
 
@@ -96,7 +96,7 @@ const Profile = () => {
 
       formData.append("profilePic", file);
 
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         alert("Please login again.");

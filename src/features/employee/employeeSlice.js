@@ -7,7 +7,7 @@ export const fetchUsers = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       console.log("TOKEN:", token);
 
@@ -47,7 +47,7 @@ export const updateUserStatus = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue(

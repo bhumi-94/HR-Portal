@@ -7,7 +7,7 @@ export const fetchLeaveSummary = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue("Authentication token not found");
@@ -36,7 +36,7 @@ export const fetchMyLeaveRequests = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue("Authentication token not found");
@@ -66,7 +66,7 @@ export const requestLeave = createAsyncThunk(
 
   async (leaveData, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue("Authentication token not found");
@@ -96,7 +96,7 @@ export const getLeaveHistory = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue("Authentication token not found");

@@ -7,7 +7,7 @@ import { submitFeedback } from "../../features/feedback/feedbackThunk";
 import { clearFeedbackStatus } from "../../features/feedback/feedbackSlice";
 
 const Feedback = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse((localStorage.getItem("user") || sessionStorage.getItem("user")));
   console.log(user)
 
   const dispatch = useDispatch();
