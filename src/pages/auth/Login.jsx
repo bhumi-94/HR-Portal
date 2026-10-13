@@ -14,6 +14,7 @@ const Login = () => {
 
   const googleButtonRef = useRef(null);
   const googleInitializedRef = useRef(false);
+  const rememberMeRef = useRef(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -48,20 +49,23 @@ const Login = () => {
         throw new Error("Login response does not contain user information");
       }
 
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
-
       if (Number(result.user.role) === 1) {
         navigate("/dashboard", { replace: true });
       } else {
         navigate("/user-dashboard", { replace: true });
       }
     } catch (error) {
-      console.error("Google login failed:", error);
-      alert(error || "Google login failed");
+      console.error("Login failed:", error);
+      alert(typeof error === "string" ? error : error?.message || "Login failed");
     }
   };
   const googleLoginInProgressRef = useRef(false);
+
+  // The Google callback is registered once, so read rememberMe via a ref
+  // to avoid capturing a stale value.
+  useEffect(() => {
+    rememberMeRef.current = formData.rememberMe;
+  }, [formData.rememberMe]);
 
   const handleGoogleLogin = async (response) => {
     if (googleLoginInProgressRef.current) return;
@@ -80,7 +84,7 @@ const Login = () => {
       const result = await dispatch(
         googleLogin({
           credential: response.credential,
-          rememberMe: formData.rememberMe,
+          rememberMe: rememberMeRef.current,
         }),
       ).unwrap();
 

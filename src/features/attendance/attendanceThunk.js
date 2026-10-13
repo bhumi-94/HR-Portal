@@ -11,7 +11,7 @@ export const fetchAttendance = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       // Check token before sending request
       if (!token) {
@@ -46,7 +46,7 @@ export const tapIn = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       // Check token before sending request
       if (!token) {
@@ -82,7 +82,7 @@ export const tapOut = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       // Check token before sending request
       if (!token) {
@@ -118,7 +118,7 @@ export const fetchEmployeeHistory = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       // Check token before sending request
       if (!token) {

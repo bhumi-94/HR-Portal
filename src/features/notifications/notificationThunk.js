@@ -6,7 +6,7 @@ export const fetchNotifications = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue(
@@ -37,7 +37,7 @@ export const fetchUnreadNotifications = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue(
@@ -69,7 +69,7 @@ export const markNotificationAsRead = createAsyncThunk(
 
   async (notificationId, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue(
@@ -105,7 +105,7 @@ export const markAllNotificationsAsRead = createAsyncThunk(
 
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = (localStorage.getItem("token") || sessionStorage.getItem("token"));
 
       if (!token) {
         return rejectWithValue(
