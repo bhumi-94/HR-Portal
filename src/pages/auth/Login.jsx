@@ -61,8 +61,13 @@ const Login = () => {
       alert(error || "Google login failed");
     }
   };
+  const googleLoginInProgressRef = useRef(false);
 
   const handleGoogleLogin = async (response) => {
+    if (googleLoginInProgressRef.current) return;
+
+    googleLoginInProgressRef.current = true;
+
     try {
       const result = await dispatch(
         googleLogin({
@@ -71,46 +76,79 @@ const Login = () => {
         }),
       ).unwrap();
 
-      if (!result?.token) {
-        throw new Error("Token was not returned by server");
+      if (!result?.token || !result?.user) {
+        throw new Error("Invalid Google login response");
       }
 
-      if (!result?.user) {
-        throw new Error("User was not returned by server");
+      const role = Number(result.user.role);
+
+      if (role !== 0 && role !== 1) {
+        throw new Error("Invalid user role returned by server");
       }
 
-      if (formData.rememberMe) {
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("user", JSON.stringify(result.user));
-
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("user");
-      } else {
-        sessionStorage.setItem("token", result.token);
-        sessionStorage.setItem("user", JSON.stringify(result.user));
-
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-      }
-      dispatch(
-        setUser({
-          token: result.token,
-          user: result.user,
-        }),
-      );
-      const role = Number(result.user?.role);
-
-      if (role === 1) {
-        navigate("/dashboard", { replace: true });
-      } else {
-        navigate("/user-dashboard", { replace: true });
-      }
+      navigate(role === 1 ? "/dashboard" : "/user-dashboard", {
+        replace: true,
+      });
     } catch (error) {
       console.error("Google login failed:", error);
-
-      alert(error?.message || error || "Google login failed");
+      alert(
+        typeof error === "string"
+          ? error
+          : error?.message || "Google login failed",
+      );
+    } finally {
+      googleLoginInProgressRef.current = false;
     }
   };
+  // const handleGoogleLogin = async (response) => {
+  //   try {
+  //     const result = await dispatch(
+  //       googleLogin({
+  //         credential: response.credential,
+  //         rememberMe: formData.rememberMe,
+  //       }),
+  //     ).unwrap();
+
+  //     if (!result?.token) {
+  //       throw new Error("Token was not returned by server");
+  //     }
+
+  //     if (!result?.user) {
+  //       throw new Error("User was not returned by server");
+  //     }
+
+  //     if (formData.rememberMe) {
+  //       localStorage.setItem("token", result.token);
+  //       localStorage.setItem("user", JSON.stringify(result.user));
+
+  //       sessionStorage.removeItem("token");
+  //       sessionStorage.removeItem("user");
+  //     } else {
+  //       sessionStorage.setItem("token", result.token);
+  //       sessionStorage.setItem("user", JSON.stringify(result.user));
+
+  //       localStorage.removeItem("token");
+  //       localStorage.removeItem("user");
+  //     }
+  //     dispatch(
+  //       setUser({
+  //         token: result.token,
+  //         user: result.user,
+  //       }),
+  //     );
+  //     const role = Number(result.user?.role);
+
+  //     if (role === 1) {
+  //       navigate("/dashboard", { replace: true });
+  //     } else {
+  //       navigate("/user-dashboard", { replace: true });
+  //     }
+  //   } catch (error) {
+  //     console.error("Google login failed:", error);
+
+  //     alert(error?.message || error || "Google login failed");
+  //   }
+  // };
   useEffect(() => {
     const initializeGoogle = () => {
       if (
